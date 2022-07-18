@@ -13,22 +13,52 @@ defined('ABSPATH') || exit;
 if (!class_exists('KWP_UserList')) {
 
 /**
- * Core class, set as singleton instance
+ * Main plguin class
  *
- * @package    KWP_UserList
+ * @class KWP_UserList
  */
 final class KWP_UserList {
-
+    
+    /**
+     * Plugin version
+     *
+     * @var string
+     */
     public $version;
+
+    
+    /**
+     * Plugin name
+     *
+     * @var string
+     */
     public $plugin_name;
+
+        
+    /**
+     * Plugin path
+     *
+     * @var string
+     */
     public $plugin_path;
+
+    
+    /**
+     * Plugin URL
+     *
+     * @var string
+     */
     public $plugin_url;
 
-    // Store the instance
+    /**
+     * Instance of the class
+     *
+     * @var KWP_UserList
+     */
     protected static $_instance = null;
     
     /**
-     * Main plugin instance, onle one
+     * Store the main instance (singleton)
      *
      * @return KWP_UserList
      */
@@ -38,9 +68,10 @@ final class KWP_UserList {
         }
         return self::$_instance;
     }
-    
+
+
     /**
-     * __construct
+     * Constructor
      *
      * @return void
      */
@@ -53,11 +84,15 @@ final class KWP_UserList {
         $this->plugin_url = KWP_USERLIST_PLUGIN_URL;
 
         // Run the setup
-        $this->run();
+        $this->load_classes();
+        $this->enqueue_assets();
+        $this->set_locale();
 
-        // Some hooks
-        add_action('init', array( $this, 'on_init' ));
-        add_action('plugins_loaded', array( $this, 'on_plugins_loaded' ));
+        // Init hook
+        add_action('init', array( $this, 'on_init'));
+
+        // Plugins loaded hook (TODO: not used)
+        add_action('plugins_loaded', array( $this, 'on_plugins_loaded'));
 
         // Add shortcode for the table
         add_shortcode('kwp_userlist', array($this, 'render_table')); 
@@ -68,22 +103,8 @@ final class KWP_UserList {
     }
 
 
-    
     /**
-     * run
-     *
-     * @return void
-     */
-    public function run() {
-
-        $this->load_classes();
-        $this->enqueue_assets();
-        $this->set_locale();
-    }
-
-
-    /**
-     * run
+     * Load all the needed classes
      *
      * @return void
      */
@@ -92,7 +113,6 @@ final class KWP_UserList {
         // Define names
         $class_names = array(
             'kwp-userlist-user',
-            'kwp-userlist-list',
             'kwp-userlist-table',
             'kwp-userlist-import',
         );
@@ -101,31 +121,28 @@ final class KWP_UserList {
         foreach ($class_names as $class_name) {
             require_once $this->plugin_path . 'includes/class-' . $class_name . '.php';
         }
-
-        // Additional public file (TODO: is it needed here?)
-        require_once $this->plugin_path . 'public/class-kwp-userlist-public.php';
-
-
     }
 
+
     /**
-     * Enqueue css/js
+     * Enqueue CSS and JS
      *
      * @return void
      */
-    public function enqueue_assets()
-    {
+    public function enqueue_assets() {
         wp_enqueue_style($this->plugin_name, $this->plugin_url . 'assets/kwp-userlist-style.css', array(), $this->version, 'all');
         wp_enqueue_script($this->plugin_name, $this->plugin_url . 'assets/kwp-userlist-script.js', array('jquery'), $this->version, false);
     }
     
+
     /**
-     * set_locale
+     * Set locale and allow i18n of the plugin 
      *
      * @return void
      */
     public function set_locale() {
 
+        // Set the locale, use plugin name as domain
         $locale = determine_locale();
         $locale = apply_filters('plugin_locale', $locale, $this->plugin_name);
 
@@ -140,44 +157,47 @@ final class KWP_UserList {
             $this->plugin_name . '/languages/'
         );
     }
-    
+
+
     /**
-     * on_init
+     * Run some code on init
      *
      * @return void
      */
     public function on_init() {
 
-
-
         // Handle import call
         if (isset($_GET['kwp-userlist-import'])) {
 
+            // Extract the type
             $import_type = $_GET['kwp-userlist-import'];
 
+            // Check what's passed
             if (in_array($import_type, array('real', 'random'))) {
 
+                // Initialize import
                 $KWP_UserList_Import = new KWP_UserList_Import($import_type);
+
+                // Perform it on the database
                 $KWP_UserList_Import->launch();
 
+                // Remove it
                 unset($KWP_UserList_Import);
                 unset($_GET['kwp-userlist-import']);
             }
         }
 
-
     }
     
+
     /**
-     * on_plugins_loaded
+     * Run code after plugins loaded
      *
      * @return void
      */
     public function on_plugins_loaded() {
-
-
+        // TODO: empty
     }
-
 
 
     /**
@@ -186,48 +206,51 @@ final class KWP_UserList {
      * @return void
      */
     public function render_table() {
-        
-        // Set the table
+
+        // Initialize the table
         $KWP_UserList_Table = new KWP_UserList_Table();
 
         // Pass the variables
-        $labels =  $KWP_UserList_Table->table_labels;
+        $labels = $KWP_UserList_Table->table_labels;
         $users_data =  $KWP_UserList_Table->table_data;
 
         // Get template and render the table with data
         $KWP_UserList_Table->get_template('main');
     }
 
+
+    // TODO
     public function table_reload() {
         $this->render_table();
 
     }
 
+    // TODO
     public function table_no_data() {
         $this->render_table();
 
     }
 
 
-
-    
     /**
-     * is_allowed
+     * Allowed capability to view the table
      *
-     * @return void
+     * @return string
+     */
+    public static function allowed_capability() {
+        return 'list_users';
+    }
+
+
+    /**
+     * User access control
+     *
+     * @return bool
      */
     public static function is_allowed_to_view() {
         return current_user_can(self::allowed_capability());
     }
     
-    /**
-     * allowed_capability
-     *
-     * @return void
-     */
-    public static function allowed_capability() {
-        return 'list_users';
-    }
 
 }
 }

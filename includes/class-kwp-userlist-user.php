@@ -13,20 +13,36 @@ defined('ABSPATH') || exit;
 if (!class_exists('KWP_UserList_User')) {
 
 /**
- * User class - all user data
+ * User class that stores all the user data
  *
- * @package    KWP_UserList_User
+ * @class KWP_UserList_User
  */
 class KWP_UserList_User {
-
-    // TODO - make protected
-    //public $id;
-    protected $name;
-    protected $email;
-    protected $role;
     
     /**
-     * __construct
+     * User name
+     *
+     * @var string
+     */
+    protected $name;    
+
+    /**
+     * User email
+     *
+     * @var string
+     */
+    protected $email;   
+
+    /**
+     * User role
+     *
+     * @var string
+     */
+    protected $role;
+
+    
+    /**
+     * Constructor
      *
      * @return void
      */
@@ -38,18 +54,32 @@ class KWP_UserList_User {
         $this->role = $role;
     }
 
-    public function get_user() {
-        return $this;
-    }
 
+    /**
+     * Get user name
+     *
+     * @return string
+     */
     public function get_name() {
         return $this->name;
     }
 
+
+    /**
+     * Get user email
+     *
+     * @return string
+     */
     public function get_email() {
         return $this->email;
     }
 
+
+    /**
+     * Get user role
+     *
+     * @return string
+     */
     public function get_role() {
         return $this->role;
     }
