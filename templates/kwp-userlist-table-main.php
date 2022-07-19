@@ -39,8 +39,8 @@ defined('ABSPATH') || exit;
         <?php if (count($users_data) < 10) : ?>
 
             <div class="kwp-userlist-import-links">
-                <a href=""><?php echo __('Import default users', KWP_USERLIST_PLUGIN_NAME); ?></a>
-                <a href=""><?php echo __('Import random users', KWP_USERLIST_PLUGIN_NAME); ?></a>
+                <a href="?kwp-userlist-import=real"><?php echo __('Import default users', 'kwp-userlist'); ?></a>
+                <a href="?kwp-userlist-import=random"><?php echo __('Import random users', 'kwp-userlist'); ?></a>
             </div> 
             
         <?php endif; ?>
@@ -48,7 +48,7 @@ defined('ABSPATH') || exit;
     <?php else : ?>
 
         <div class="kwp-userlist-empty">
-            <?php echo __('No data available.', KWP_USERLIST_PLUGIN_NAME); ?>
+            <?php echo __('No data available.', 'kwp-userlist'); ?>
         </div>
 
     <?php endif; ?>
