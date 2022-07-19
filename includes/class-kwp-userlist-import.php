@@ -78,7 +78,7 @@ class KWP_UserList_Import {
     public static function parse_users_from_csv() {
 
         // Get file
-        $file = fopen(KWP_USERLIST_PLUGIN_URL . 'sample-data/users.csv', 'r'); // TODO - not opening
+        $file = fopen(KWP_USERLIST_PLUGIN_URL . 'sample-users.csv', 'r');
 
         // Exit if file isn't opened
         if ($file === false) {
@@ -88,7 +88,7 @@ class KWP_UserList_Import {
         // Check headers
         $headers_check = array('username', 'email', 'role');
         $line = fgets($file);
-        $headers_file = str_getcsv(trim($line), ',', '');
+        $headers_file = str_getcsv(trim($line), ',');
 
         // Exit if the headers don't match
         if ($headers_check !== $headers_file) {
@@ -97,15 +97,14 @@ class KWP_UserList_Import {
 
         $users_data = array();
 
-        while (($line_data = fgetcsv($file, 1000, ',', '')) !== false) {
+        while (($line_data = fgetcsv($file, 1000, ',')) !== false) {
             
             if (count($line_data) === 3) {
 
                 $users_data[] = new KWP_UserList_User(
-                    rand(),
-                    $line_data['username'],
-                    $line_data['email'],
-                    $line_data['role'],
+                    $line_data[0],
+                    $line_data[1],
+                    $line_data[2],
                 );
             }
         }
@@ -115,14 +114,14 @@ class KWP_UserList_Import {
         return $users_data;
     }
 
-    
+
     /**
      * prepare_users_data
      *
-     * @param  mixed $type
+     * @param string $type
      * @return void
      */
-    public static function prepare_users_data($type = 'random') {
+    public static function prepare_users_data($type = 'real') {
 
         switch ($type) {
             case 'real':
@@ -141,7 +140,7 @@ class KWP_UserList_Import {
     public static function generate_random_user() {
 
         // Sample roles list
-        $roles = array('subscriber', 'editor', 'admin');
+        $roles = array('subscriber', 'editor', 'author');
 
         // Random
         $rand = rand();
@@ -150,18 +149,18 @@ class KWP_UserList_Import {
         return new KWP_UserList_User(
             $uniqid,
             $rand . '@' . $uniqid . '.com',
-            $roles[rand(0, count($roles) - 1)]
+            $roles[rand(0, (count($roles)-1))]
         );
     }
 
 
     /**
-     * Generate random users
+     * Generate multiple random users
      *
      * @param mixed $amount
      * @return array $users_data
      */
-    public static function generate_random_users($amount = 30) {
+    public static function generate_random_users($amount = 3) {
 
         $users_data = array();
 
@@ -184,6 +183,10 @@ class KWP_UserList_Import {
 
         $imported = array();
 
+        if (empty($users_data)) {
+            return false;
+        }
+
         foreach ($users_data as $userlist_user) {
 
             if (username_exists($userlist_user->get_name())) {
@@ -191,14 +194,13 @@ class KWP_UserList_Import {
             }
 
             $userdata = array(
-                'user_login'    =>  $userlist_user->get_name(),
-                'user_nicename' =>  $userlist_user->get_name(),
-                'user_email'    =>  $userlist_user->get_email(),
-                'role'          =>  $userlist_user->get_role(),
-                'user_pass'     =>  uniqid(),
+                'user_login' =>  $userlist_user->get_name(),
+                'user_email' =>  $userlist_user->get_email(),
+                'role'       =>  $userlist_user->get_role(),
+                'user_pass'  =>  '',
             );
              
-            $imported[] = wp_insert_user($userdata) ;
+            $imported[] = wp_insert_user($userdata);
         }
 
         return $imported;
