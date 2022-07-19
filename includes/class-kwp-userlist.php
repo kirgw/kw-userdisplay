@@ -85,7 +85,6 @@ final class KWP_UserList {
 
         // Run the setup
         $this->load_classes();
-        $this->enqueue_assets();
         $this->set_locale();
 
         // Init hook
@@ -147,12 +146,12 @@ final class KWP_UserList {
         $locale = apply_filters('plugin_locale', $locale, $this->plugin_name);
 
         load_textdomain(
-            $this->plugin_name,
-            WP_LANG_DIR . '/' . $this->plugin_name . '/' . $this->plugin_name . '-' . $locale . '.mo'
+            'kwp-userlist',
+            WP_LANG_DIR . '/kwp-userlist/kwp-userlist-' . $locale . '.mo'
         );
 
         load_plugin_textdomain(
-            $this->plugin_name,
+            'kwp-userlist',
             false,
             $this->plugin_name . '/languages/'
         );
@@ -187,6 +186,8 @@ final class KWP_UserList {
             }
         }
 
+        // Load assets
+        $this->enqueue_assets();
     }
     
 
@@ -209,10 +210,6 @@ final class KWP_UserList {
 
         // Initialize the table
         $KWP_UserList_Table = new KWP_UserList_Table();
-
-        // Pass the variables
-        $labels = $KWP_UserList_Table->table_labels;
-        $users_data =  $KWP_UserList_Table->table_data;
 
         // Get template and render the table with data
         $KWP_UserList_Table->get_template('main');
