@@ -13,47 +13,72 @@ defined('ABSPATH') || exit;
 if (!class_exists('KWP_UserList_Import')) {
 
 /**
- * Table class - all table data
+ * Table class that stores all the table data
  *
- * @package    KWP_UserList_Import
+ * @class KWP_UserList_Import
  */
 class KWP_UserList_Import {
 
-    public $import_type;
+    /**
+     * Import type
+     *
+     * @var string
+     */
+    public $import_type;    
+
+    /**
+     * Users data: prepared data
+     *
+     * @var array
+     */
     public $users_data;
 
     /**
-     * __construct
+     * Import results: imported user ids
+     *
+     * @var array
+     */
+    public $import_results;
+
+    /**
+     * Constructor
      *
      * @return void
      */
     public function __construct($import_type = 'random') {
 
-        // Set the type and call for the data
+        // Set the type
         $this->import_type = $import_type;
-
     }
-    
+
+
     /**
      * Gather and insert the data
      *
      * @return void
      */
-    protected function launch() {
+    public function launch() {
+
+        // Prepare the data of selected type
         $this->users_data = self::prepare_users_data($this->import_type);
+
+        // Insert the data into the database
         $this->import_results = self::insert_users_in_db($this->users_data);
+
+        // Return import results
+        return $this->import_results;
     }
 
 
     /**
-     * parse_users_from_csv
+     * Parse users from CSV
      *
      * @return void
      */
     public static function parse_users_from_csv() {
 
         // Get file
-        $file = fopen(KWP_USERLIST_PLUGIN_PATH . '/sample-data/users.csv', 'r');
+        $file = fopen(KWP_USERLIST_PLUGIN_URL . 'sample-data/users.csv', 'r'); // TODO - not opening
 
         // Exit if file isn't opened
         if ($file === false) {
@@ -99,16 +124,6 @@ class KWP_UserList_Import {
      */
     public static function prepare_users_data($type = 'random') {
 
-        // Like this?
-        if ($type === 'real') {
-            //return self::parse_users_from_csv();
-        }
-
-        if ($type === 'random') {
-            //return self::generate_random_users();
-        }
-
-        // Or like this?
         switch ($type) {
             case 'real':
                 return self::parse_users_from_csv();
@@ -119,9 +134,9 @@ class KWP_UserList_Import {
 
 
     /**
-     * generate_random_user
+     * Generate one random user
      *
-     * @return void
+     * @return KWP_UserList_User
      */
     public static function generate_random_user() {
 
@@ -135,38 +150,35 @@ class KWP_UserList_Import {
         return new KWP_UserList_User(
             $uniqid,
             $rand . '@' . $uniqid . '.com',
-            $roles[rand(1, count($roles))]
+            $roles[rand(0, count($roles) - 1)]
         );
     }
 
 
-
     /**
-     * generate_random_users
+     * Generate random users
      *
-     * @param  mixed $amount
-     * @return void
+     * @param mixed $amount
+     * @return array $users_data
      */
-    public static function generate_random_users($args = array()) {
+    public static function generate_random_users($amount = 30) {
 
-        $amount = !empty($args['amount']) ? $args['amount'] : 30;
         $users_data = array();
 
         // Iterate $amount times and create array of KWP_UserList_User users
         for ($i = 1; $i <= $amount; $i++) { 
-            $users_data[] = KWP_UserList_User::generate_random_user();
+            $users_data[] = self::generate_random_user();
         }
 
         return $users_data;
     }
 
 
-
     /**
-     * import
+     * Inserting the data into the database
      *
-     * @param  array $users_data - array of KWP_UserList_User objects
-     * @return void
+     * @param array $users_data - array of KWP_UserList_User objects
+     * @return array $imported - import results
      */
     public static function insert_users_in_db($users_data) {
 
@@ -174,19 +186,19 @@ class KWP_UserList_Import {
 
         foreach ($users_data as $userlist_user) {
 
-            if (username_exists($userlist_user->username)) {
+            if (username_exists($userlist_user->get_name())) {
                 continue;
             }
 
             $userdata = array(
-                'user_login'    =>  $userlist_user->username,
-                'user_nicename' =>  $userlist_user->username,
-                'user_email'    =>  $userlist_user->email,
-                'role'          =>  $userlist_user->role,
+                'user_login'    =>  $userlist_user->get_name(),
+                'user_nicename' =>  $userlist_user->get_name(),
+                'user_email'    =>  $userlist_user->get_email(),
+                'role'          =>  $userlist_user->get_role(),
                 'user_pass'     =>  uniqid(),
             );
              
-            $imported[] = wp_insert_user( $userdata ) ;
+            $imported[] = wp_insert_user($userdata) ;
         }
 
         return $imported;
