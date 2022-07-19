@@ -15,20 +15,22 @@ if (!class_exists('KWP_UserList_Table')) {
 /**
  * Table class - all table data
  *
- * @package    KWP_UserList_Table
+ * @class KWP_UserList_Table
  */
 class KWP_UserList_Table {
 
-    public $current_page;
-    public $items_on_page;
     public $sorting;
     public $sort_by;
+
     public $role_filter;
     public $table_labels;
     public $table_data;
 
+    public $current_page;
+    public $items_on_page;
+
     /**
-     * __construct
+     * Constructor
      *
      * @return void
      */
@@ -46,15 +48,13 @@ class KWP_UserList_Table {
 
         // Table data (users data)
         $this->table_data = $this->get_data();
-
-
     }
 
     
     /**
-     * get_labels
+     * Get table labels
      *
-     * @return void
+     * @return array
      */
     public function get_labels() {
 
@@ -66,12 +66,11 @@ class KWP_UserList_Table {
 
     }
 
-    
+
     /**
-     * get_data
+     * Get users data
      *
-     * @param  mixed $args
-     * @return void
+     * @return array $users_data
      */
     public function get_data() {
 
@@ -88,7 +87,7 @@ class KWP_UserList_Table {
 
         // Get users data
         $users = get_users($args);
-        
+
         // Format the data correctly
         $users_data = array();
 
@@ -96,9 +95,8 @@ class KWP_UserList_Table {
 
             $role = array_shift($user->roles);
 
-            $users_list[] = new KWP_UserList_User(
-                $user->ID,
-                $user->username,
+            $users_data[] = new KWP_UserList_User(
+                $user->user_login,
                 $user->user_email,
                 $role,
             );
@@ -111,24 +109,23 @@ class KWP_UserList_Table {
     /**
      * Include the table template
      *
-     * @param  mixed $type
+     * @param string $type
      * @return void
      */
     public function get_template($type = 'main') {
 
+        // Pass the variables
+        $labels = $this->table_labels;
+        $users_data = $this->table_data;
+
+        // Check the file and include
         $filename = KWP_USERLIST_PLUGIN_PATH . 'templates/kwp-userlist-table-' . $type . '.php';
 
         if (file_exists($filename)) {
-            require_once $filename;
+            include $filename;
         }
-
     }
 
 
-
-
 }
-
-
-
 }

@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 
     <?php if (!empty($users_data) && KWP_UserList::is_allowed_to_view()) : ?>
 
-        <table>
+        <table class="kwp-userlist-table">
             <thead>
                 <tr>
                     <th><?php echo $labels['username']; ?></th>

@@ -1,1 +1,83 @@
-/* No CSS *//*# sourceMappingURL=kwp-userlist-style.css.map */
+.kwp-userlist-container {
+  width: 100%;
+  min-height: 300px;
+}
+
+.kwp-userlist-table {
+  color: #888;
+  margin: 15px 0;
+  font-size: 0.9em;
+  font-family: inherit;
+  width: 100%;
+  min-width: 400px;
+  border-collapse: collapse;
+  border: 1px solid #888;
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+.kwp-userlist-table thead tr {
+  background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e9e9e9));
+  background: linear-gradient(#f2f2f2, #e9e9e9);
+  color: #888;
+  text-align: center;
+  text-shadow: 1px 1px 3px #fff;
+}
+
+.kwp-userlist-table th, .kwp-userlist-table td {
+  padding: 12px 15px;
+  border: 1px solid #888;
+}
+
+.kwp-userlist-table tbody tr:nth-of-type(even) {
+  background-color: #f8f8f8;
+}
+
+.kwp-userlist-table tbody tr {
+  color: #888;
+  border-bottom: 1px solid #444;
+}
+
+.kwp-userlist-table tbody tr:last-of-type {
+  border-bottom: 1px solid #555;
+}
+
+.kwp-userlist-table tbody tr:hover {
+  background-color: #f2f2f2;
+}
+
+.kwp-userlist-table tbody td:hover {
+  background-color: #e9e9e9;
+}
+
+.kwp-userlist-import-links,
+.kwp-userlist-empty {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.kwp-userlist-import-links {
+  padding: 10px;
+}
+
+.kwp-userlist-import-links a {
+  margin: 0 15px;
+}
+
+.kwp-userlist-empty {
+  padding: 30px;
+  margin: 15px 0;
+  color: #888;
+  border: 1px solid #888;
+  -webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+/*# sourceMappingURL=kwp-userlist-style.css.map */
