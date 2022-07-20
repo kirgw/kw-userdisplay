@@ -69,7 +69,7 @@
   color: #bbb;
 }
 
-.kwp-userlist-table .kwp-role-name {
+.kwp-userlist-table .kwp-role-name, .kwp-userlist-table #kwp-role-remove {
   cursor: pointer;
 }
 
