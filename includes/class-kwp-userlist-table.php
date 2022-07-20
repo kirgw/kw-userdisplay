@@ -26,6 +26,7 @@ class KWP_UserList_Table {
     public $table_labels;
     public $table_data;
 
+    public $total_users;
     public $current_page;
     public $items_on_page;
 
@@ -34,22 +35,28 @@ class KWP_UserList_Table {
      *
      * @return void
      */
-    public function __construct($sorting = 'ASC', $sort_by = 'id', $role_filter = 'all') {
+    public function __construct(
+        $sorting = 'ASC',
+        $sort_by = 'user_login',
+        $role_filter = 'all',
+        $current_page = 1,
+        $items_on_page = 10) {
 
         // Set the properties
         $this->sorting = $sorting;
         $this->sort_by = $sort_by;
         $this->role_filter = $role_filter;
 
+        // Pages
+        $this->current_page = $current_page;
+        $this->items_on_page = $items_on_page;
+
         // Table header labels
         $this->table_labels = $this->get_labels();
 
         // Table data (users data)
+        $this->total_users = $this->get_users_total();
         $this->table_data = $this->get_data();
-
-        // Pages
-        $this->current_page = 1;
-        $this->items_on_page = 10;
     }
 
     
@@ -70,6 +77,25 @@ class KWP_UserList_Table {
 
 
     /**
+     * Get total amount of users for pagination
+     *
+     * @return void
+     */
+    public function get_users_total() {
+    
+        $args = array();
+        
+        // Need to count considering the filter
+        if ($this->role_filter !== 'all') {
+            $args['role'] = $this->role_filter;
+        }
+
+        $all_users = get_users($args);
+        return count($all_users);
+    }
+
+
+    /**
      * Get users data
      *
      * @return array $users_data
@@ -85,6 +111,14 @@ class KWP_UserList_Table {
         // If role filtering is active
         if ($this->role_filter !== 'all') {
             $args['role'] = $this->role_filter;
+        }
+
+        // Add number
+        $args['number'] = $this->items_on_page;
+
+        // Add the offset if needed
+        if ($this->current_page > 1) {
+            $args['offset'] = ($this->current_page - 1) * $this->items_on_page;
         }
 
         // Get users data
@@ -118,36 +152,47 @@ class KWP_UserList_Table {
 
         $html = '';
 
-        // Add users data (TODO - add paged view of users)
+        // Iterate users data
         foreach($users_data as $user) {
 
             $html .= 
                 '<tr>
                     <td>' . $user->get_name() . '</td>
                     <td>' . $user->get_email() . '</td>
-                    <td>' . $user->get_role() . '</td>
+                    <td><span class="kwp-role-name">' . $user->get_role() . '</span></td>
                 </tr>';
 
         }
 
         // Is pagination needed?
-        if (count($users_data) > $this->items_on_page) {
+        if ($this->total_users > $this->items_on_page) {
 
-            $pages = ceil(count($users_data) / $this->items_on_page);
+            $pages = ceil($this->total_users / $this->items_on_page);
 
-            $html .= '<tr><td colspan=3>';
+            $html .= 
+                '<tr>
+                    <td colspan="3">
+                        <div class="kwp-pagination">
+                            <div>';
 
             // Add page links
-            for ($i = 1; $i < $pages; $i++) {
-                if ($i !== $this->current_page) {
-                    $html .= '<a href="?kwp-list-page="' . $i . '">' . $i . '</a> ';
+            for ($i = 1; $i <= $pages; $i++) {
+                if ($i != $this->current_page) {
+                    $html .= '<a href="#" class="kwp-page">' . $i . '</a> ';
                 }
                 else {
-                    $html .= $i . ' ';
+                    $html .= '<span class="kwp-page-active">' . $i . '</span> ';
                 }
             }
 
-            $html .=  '</td></tr>';
+            $html .= 
+                           '</div>
+                            <div>
+                                <i class="fa fa-user"></i> ' . $this->total_users . '
+                            </div>
+                        </div>
+                    </td>
+                </tr>';
         }
 
         return $html;

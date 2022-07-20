@@ -10,30 +10,39 @@ defined('ABSPATH') || exit;
 
 <div class="kwp-userlist-container">
 
-    <?php if (!empty($users_data) && KWP_UserList::is_allowed_to_view()) : ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <?php if (!empty($table_body_html) && KWP_UserList::is_allowed_to_view()) : ?>
 
         <table class="kwp-userlist-table">
+
             <thead>
                 <tr>
-                    <th><?php echo $labels['username']; ?></th>
-                    <th><?php echo $labels['email']; ?></th>
-                    <th><?php echo $labels['role']; ?></th>               
+
+                    <th>
+                        <i class="fa fa-sort-asc" id="username-ASC" title="<?php echo __('Sort by username, ascending', 'kwp-userlist'); ?>"></i>  
+                        <?php echo $labels['username']; ?>
+                        <i class="fa fa-sort-desc" id="username-DESC" title="<?php echo __('Sort by username, descending', 'kwp-userlist'); ?>"></i>
+                    </th>
+
+                    <th>
+                        <i class="fa fa-sort-asc" id="email-ASC" title="<?php echo __('Sort by email, ascending', 'kwp-userlist'); ?>"></i>  
+                        <?php echo $labels['email']; ?>
+                        <i class="fa fa-sort-desc" id="email-DESC" title="<?php echo __('Sort by email, descending', 'kwp-userlist'); ?>"></i>
+                    </th>
+
+                    <th>
+                        <?php echo $labels['role']; ?>
+                        <i class="fa fa-filter active-sort" id="filter-reload" title="<?php echo __('Filter is active', 'kwp-userlist'); ?>"></i>
+                        (<i class="fa fa-times" id="filter-reload" title="<?php echo __('Remove the filter', 'kwp-userlist'); ?>"></i>)
+                    </th>               
                 </tr>
             </thead>
 
             <tbody>
-
-                <?php foreach($users_data as $user) : ?>
-
-                    <tr>
-                        <td><?php echo $user->get_name(); ?></td>
-                        <td><?php echo $user->get_email(); ?></td>
-                        <td><?php echo $user->get_role(); ?></td>
-                    </tr>
-
-                <?php endforeach; ?>
-
+                <?php echo $table_body_html; ?>
             </tbody>
+
         </table>
 
         <?php if (count($users_data) < 10) : ?>
