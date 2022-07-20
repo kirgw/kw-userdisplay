@@ -1,44 +1,68 @@
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: kwp-userlist\n"
+"POT-Creation-Date: 2022-07-21 00:47+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-07-18 15:55+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.6.0\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Domain: kwp-userlist\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SearchPath-0: .\n"
 
-#. Plugin Name of the plugin
-#: includes/class-kwp-userlist-table.php:62
-#: includes/class-kwp-userlist-table.php:63
-#: includes/class-kwp-userlist-table.php:64
-#: templates/kwp-userlist-table-main.php:42
-#: templates/kwp-userlist-table-main.php:43
-#: templates/kwp-userlist-table-main.php:51
-
-#: includes/class-kwp-userlist-table.php:62
+#: includes/class-kwp-userlist-table.php:71
 msgid "User"
 msgstr ""
 
-#: includes/class-kwp-userlist-table.php:63
+#: includes/class-kwp-userlist-table.php:72
 msgid "Email"
 msgstr ""
 
-#: includes/class-kwp-userlist-table.php:64
+#: includes/class-kwp-userlist-table.php:73
 msgid "Role"
 msgstr ""
 
-#: templates/kwp-userlist-table-main.php:42
+#: includes/class-kwp-userlist-table.php:191
+msgid "Total users found"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:23
+msgid "Sort by username, ascending"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:25
+msgid "Sort by username, descending"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:29
+msgid "Sort by email, ascending"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:31
+msgid "Sort by email, descending"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:37
+msgid "Filter is active"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:38
+msgid "Remove the filter"
+msgstr ""
+
+#: templates/kwp-userlist-table-main.php:53
 msgid "Import default users"
 msgstr ""
 
-#: templates/kwp-userlist-table-main.php:43
+#: templates/kwp-userlist-table-main.php:54
 msgid "Import random users"
 msgstr ""
 
-#: templates/kwp-userlist-table-main.php:51
+#: templates/kwp-userlist-table-main.php:62
 msgid "No data available."
 msgstr ""

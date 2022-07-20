@@ -14,6 +14,6 @@ Activated with [kwp_userlist] shortcode.
 
 = Features: =
 * Import option to add sample data or generate random users data
-* AJAX sorting and filter by role
+* AJAX sorting, filter by role and pagination
 * Translatable with .pot file
 * Custom templates for table can be added

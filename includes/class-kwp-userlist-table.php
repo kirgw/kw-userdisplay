@@ -188,7 +188,7 @@ class KWP_UserList_Table {
             $html .= 
                            '</div>
                             <div>
-                                <i class="fa fa-user"></i> ' . $this->total_users . '
+                                <i class="fa fa-user" title="' . __('Total users found', 'kwp-userlist') . '"></i> ' . $this->total_users . '
                             </div>
                         </div>
                     </td>
