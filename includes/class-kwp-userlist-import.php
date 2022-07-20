@@ -71,13 +71,30 @@ class KWP_UserList_Import {
 
 
     /**
+     * Prepare users data based on the selected import type
+     *
+     * @param string $type
+     * @return array $users_data
+     */
+    public static function prepare_users_data($type = 'real') {
+
+        switch ($type) {
+            case 'real':
+                return self::parse_users_from_csv();
+            case 'random':
+                return self::generate_random_users();
+        }
+    }
+
+
+    /**
      * Parse users from CSV
      *
-     * @return void
+     * @return array $users_data
      */
     public static function parse_users_from_csv() {
 
-        // Get file
+        // Get sample file
         $file = fopen(KWP_USERLIST_PLUGIN_URL . 'sample-users.csv', 'r');
 
         // Exit if file isn't opened
@@ -112,23 +129,6 @@ class KWP_UserList_Import {
         fclose($file);
 
         return $users_data;
-    }
-
-
-    /**
-     * prepare_users_data
-     *
-     * @param string $type
-     * @return void
-     */
-    public static function prepare_users_data($type = 'real') {
-
-        switch ($type) {
-            case 'real':
-                return self::parse_users_from_csv();
-            case 'random':
-                return self::generate_random_users();
-        }
     }
 
 
@@ -174,7 +174,7 @@ class KWP_UserList_Import {
 
 
     /**
-     * Inserting the data into the database
+     * Inserting the users into the database
      *
      * @param array $users_data - array of KWP_UserList_User objects
      * @return array $imported - import results
