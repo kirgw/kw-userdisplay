@@ -1,18 +1,17 @@
-=== KWP UserList ===
+# KWP UserList
 License: GPLv2 or later
+
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Just use [kwp_userlist] shortcode.
+## Description
 
-== Description ==
+Table is sortable, also can be filtered by user role, pagination per 10 users is available.
+Protected - can be seen only by admin users.
 
-Table is *sortable*, also can be *filtered* by user role, *pagination* per 10 users is available.
-*Protected* - can be seen only by admin users.
+## Usage:
+Activated with `[kwp_userlist]` shortcode.
 
-= Usage: =
-Activated with [kwp_userlist] shortcode.
-
-= Features: =
+## Features:
 * Import option to add sample data or generate random users data
 * AJAX sorting, filter by role and pagination
 * Translatable with .pot file
