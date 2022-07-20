@@ -20,21 +20,23 @@ defined('ABSPATH') || exit;
                 <tr>
 
                     <th>
-                        <i class="fa fa-sort-asc" id="username-ASC" title="<?php echo __('Sort by username, ascending', 'kwp-userlist'); ?>"></i>  
+                        <i class="fa fa-sort-asc kwp-sort" id="username-ASC" title="<?php echo __('Sort by username, ascending', 'kwp-userlist'); ?>"></i>  
                         <?php echo $labels['username']; ?>
-                        <i class="fa fa-sort-desc" id="username-DESC" title="<?php echo __('Sort by username, descending', 'kwp-userlist'); ?>"></i>
+                        <i class="fa fa-sort-desc kwp-sort" id="username-DESC" title="<?php echo __('Sort by username, descending', 'kwp-userlist'); ?>"></i>
                     </th>
 
                     <th>
-                        <i class="fa fa-sort-asc" id="email-ASC" title="<?php echo __('Sort by email, ascending', 'kwp-userlist'); ?>"></i>  
+                        <i class="fa fa-sort-asc kwp-sort" id="email-ASC" title="<?php echo __('Sort by email, ascending', 'kwp-userlist'); ?>"></i>  
                         <?php echo $labels['email']; ?>
-                        <i class="fa fa-sort-desc" id="email-DESC" title="<?php echo __('Sort by email, descending', 'kwp-userlist'); ?>"></i>
+                        <i class="fa fa-sort-desc kwp-sort" id="email-DESC" title="<?php echo __('Sort by email, descending', 'kwp-userlist'); ?>"></i>
                     </th>
 
                     <th>
                         <?php echo $labels['role']; ?>
-                        <i class="fa fa-filter active-sort" id="filter-reload" title="<?php echo __('Filter is active', 'kwp-userlist'); ?>"></i>
-                        (<i class="fa fa-times" id="filter-reload" title="<?php echo __('Remove the filter', 'kwp-userlist'); ?>"></i>)
+                        <span class="kwp-filter-icons">
+                            <i class="fa fa-filter" id="kwp-filter-icon" title="<?php echo __('Filter is active', 'kwp-userlist'); ?>"></i>
+                        (<i class="fa fa-times" id="kwp-role-remove" title="<?php echo __('Remove the filter', 'kwp-userlist'); ?>"></i>)
+                        </span>
                     </th>               
                 </tr>
             </thead>
