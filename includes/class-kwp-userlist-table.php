@@ -19,13 +19,16 @@ if (!class_exists('KWP_UserList_Table')) {
  */
 class KWP_UserList_Table {
 
+    // Sorting properties
     public $sorting;
     public $sort_by;
     public $role_filter;
 
+    // Table data
     public $table_labels;
     public $table_data;
 
+    // Pagination
     public $total_users;
     public $current_page;
     public $items_on_page;
@@ -149,6 +152,9 @@ class KWP_UserList_Table {
      * @return string $html
      */
     public function get_table_body_html($users_data) {
+        
+        // TODO: rearrange the templating system
+
 
         $html = '';
 

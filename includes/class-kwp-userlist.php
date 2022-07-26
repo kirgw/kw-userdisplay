@@ -135,7 +135,6 @@ final class KWP_UserList {
 
         $ajaxdata = array(
             'url'   => admin_url('admin-ajax.php'),
-            //'nonce' => wp_create_nonce('kwp-userlist'), // not used atm
         );
 
         wp_localize_script('kwp-userlist', 'ajaxdata', $ajaxdata);

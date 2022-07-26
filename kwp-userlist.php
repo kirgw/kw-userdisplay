@@ -1,7 +1,7 @@
 <?php
 /*
-* Plugin Name: KWP UserList
-* Description: Test plugin to show the sortable user list
+* Plugin Name: KWP UserList (renaming to KW User Display)
+* Description: Plugin to show the sortable user list
 * Author: Kirill G.
 * Version: 1.0.0
 * License: GPLv2 or later
