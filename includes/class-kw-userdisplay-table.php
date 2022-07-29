@@ -3,21 +3,21 @@
 /**
  * The file defines the table class
  *
- * @package    KW_UserDisplay_Table
- * @subpackage KW_UserDisplay/includes
+ * @package    KW\UserDisplay
+ * @subpackage KW\UserDisplay\Inc
  */
+
+namespace KW\UserDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KW_UserDisplay_Table')) {
-
 /**
  * Table class - all table data
  *
- * @class KW_UserDisplay_Table
+ * @class KW\UserDisplay\Inc\Table
  */
-class KW_UserDisplay_Table {
+class Table {
 
     // Sorting properties
     public $sorting;
@@ -134,7 +134,7 @@ class KW_UserDisplay_Table {
 
             $role = array_shift($user->roles);
 
-            $users_data[] = new KW_UserDisplay_User(
+            $users_data[] = new \KW\UserDisplay\Inc\User(
                 $user->user_login,
                 $user->user_email,
                 $role,
@@ -226,6 +226,4 @@ class KW_UserDisplay_Table {
         }
     }
 
-
-}
 }

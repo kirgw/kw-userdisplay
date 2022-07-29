@@ -12,7 +12,7 @@ defined('ABSPATH') || exit;
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <?php if (!empty($table_body_html) && KW_UserDisplay::is_allowed_to_view()) : ?>
+    <?php if (!empty($table_body_html) && \KW\UserDisplay\Inc\Init::is_allowed_to_view()) : ?>
 
         <table class="kw-userdisplay-table">
 

@@ -3,23 +3,21 @@
 /**
  * The file defines the core plugin class
  *
- * @package    KW_UserDisplay
- * @subpackage KW_UserDisplay/includes
+ * @package    KW\UserDisplay
+ * @subpackage KW\UserDisplay\Inc
  */
 
-namespace KW\UserDisplay;
+namespace KW\UserDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
-
-if (!class_exists('KW_UserDisplay')) {
 
 /**
  * Main plguin class
  *
  * @class KW_UserDisplay
  */
-final class KW_UserDisplay {
+final class Init {
     
     /**
      * Plugin version
@@ -55,14 +53,14 @@ final class KW_UserDisplay {
     /**
      * Instance of the class
      *
-     * @var KW_UserDisplay
+     * @var \KW\UserDisplay\Inc\Init
      */
     protected static $_instance = null;
     
     /**
      * Store the main instance (singleton)
      *
-     * @return KW_UserDisplay
+     * @return \KW\UserDisplay\Inc\Init
      */
     public static function instance() {
         if (self::$_instance === null) {
@@ -93,7 +91,9 @@ final class KW_UserDisplay {
         add_action('init', array( $this, 'on_init'));
 
         // Add shortcode for the table
-        add_shortcode('kw_userdisplay', array($this, 'render_table')); 
+        //if (is_admin()) {
+            add_shortcode('kw_userdisplay', array($this, 'render_table'));
+        //}
 
         // AJAX hooks
         if (wp_doing_ajax()) {
@@ -184,7 +184,7 @@ final class KW_UserDisplay {
             if (in_array($import_type, array('real', 'random'))) {
 
                 // Initialize import
-                $KW_UserDisplay_Import = new KW_UserDisplay_Import($import_type);
+                $KW_UserDisplay_Import = new \KW\UserDisplay\Inc\UsersImport($import_type);
 
                 // Perform it on the database
                 $KW_UserDisplay_Import->launch();
@@ -228,7 +228,7 @@ final class KW_UserDisplay {
     public function render_table() {
 
         // Initialize the table
-        $KW_UserDisplay_Table = new KW_UserDisplay_Table();
+        $KW_UserDisplay_Table = new \KW\UserDisplay\Inc\Table();
 
         // Get template and render the table with data
         $KW_UserDisplay_Table->get_template('main');
@@ -258,7 +258,7 @@ final class KW_UserDisplay {
         $sort_type = $kw_state['sorting'];
 
         // Initialize the table
-        $KW_UserDisplay_Table = new KW_UserDisplay_Table($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
+        $KW_UserDisplay_Table = new \KW\UserDisplay\Inc\Table($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
 
         // Get data
         $table_body_html = $KW_UserDisplay_Table->get_table_body_html($KW_UserDisplay_Table->table_data);
@@ -272,5 +272,4 @@ final class KW_UserDisplay {
     }
 
 
-}
 }

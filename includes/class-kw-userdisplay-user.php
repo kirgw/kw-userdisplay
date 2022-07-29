@@ -3,21 +3,21 @@
 /**
  * The file defines the user class
  *
- * @package    KW_UserDisplay_User
- * @subpackage KW_UserDisplay/includes
+ * @package    KW\UserDisplay
+ * @subpackage KW\UserDisplay\Inc
  */
+
+namespace KW\UserDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KW_UserDisplay_User')) {
-
 /**
  * User class that stores all the user data
  *
- * @class KW_UserDisplay_User
+ * @class \KW\UserDisplay\Inc\User
  */
-class KW_UserDisplay_User {
+class User {
     
     /**
      * User name
@@ -85,5 +85,4 @@ class KW_UserDisplay_User {
     }
 
 
-}
 }

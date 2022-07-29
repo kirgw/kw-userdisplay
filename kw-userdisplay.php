@@ -8,7 +8,7 @@
 * Text Domain: kw-userdisplay
 */
 
-//namespace KW\UserDisplay;
+namespace KW\UserDisplay;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
@@ -35,4 +35,5 @@ register_deactivation_hook(__FILE__, 'kw_userdisplay_deactivate');
 require_once KW_USERDISPLAY_PLUGIN_PATH . 'includes/class-kw-userdisplay.php';
 
 // Start the plugin
-KW_UserDisplay::instance();
+\KW\UserDisplay\Inc\Init::instance();
+

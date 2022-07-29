@@ -3,21 +3,22 @@
 /**
  * The file defines the table class
  *
- * @package    KW_UserDisplay_Import
- * @subpackage KW_UserDisplay/includes
+ * @package    KW\UserDisplay
+ * @subpackage KW\UserDisplay\Inc
  */
+
+namespace KW\UserDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KW_UserDisplay_Import')) {
 
 /**
  * Table class that stores all the table data
  *
- * @class KW_UserDisplay_Import
+ * @class KW\UserDisplay\Inc\UsersImport
  */
-class KW_UserDisplay_Import {
+class UsersImport {
 
     /**
      * Import type
@@ -118,7 +119,7 @@ class KW_UserDisplay_Import {
             
             if (count($line_data) === 3) {
 
-                $users_data[] = new KW_UserDisplay_User(
+                $users_data[] = new \KW\UserDisplay\Inc\User(
                     $line_data[0],
                     $line_data[1],
                     $line_data[2],
@@ -135,7 +136,7 @@ class KW_UserDisplay_Import {
     /**
      * Generate one random user
      *
-     * @return KW_UserDisplay_User
+     * @return \KW\UserDisplay\Inc\User
      */
     public static function generate_random_user() {
 
@@ -146,7 +147,7 @@ class KW_UserDisplay_Import {
         $rand = rand();
         $uniqid = uniqid();
 
-        return new KW_UserDisplay_User(
+        return new \KW\UserDisplay\Inc\User(
             $uniqid,
             $rand . '@' . $uniqid . '.com',
             $roles[rand(0, (count($roles)-1))]
@@ -176,7 +177,7 @@ class KW_UserDisplay_Import {
     /**
      * Inserting the users into the database
      *
-     * @param array $users_data - array of KW_UserDisplay_User objects
+     * @param array $users_data - array of \KW\UserDisplay\Inc\User objects
      * @return array $imported - import results
      */
     public static function insert_users_in_db($users_data) {
@@ -207,5 +208,4 @@ class KW_UserDisplay_Import {
     }
 
 
-}
 }
