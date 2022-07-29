@@ -1,36 +1,38 @@
 <?php
 /*
-* Plugin Name: KWP UserList (renaming to KW User Display)
+* Plugin Name: KW UserDisplay (former KWP UserList)
 * Description: Plugin to show the sortable user list
 * Author: Kirill G.
-* Version: 1.0.0
+* Version: 1.1.0
 * License: GPLv2 or later
-* Text Domain: kwp-userlist
+* Text Domain: kw-userdisplay
 */
+
+//namespace KW\UserDisplay;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
 // Setup the constants
-define('KWP_USERLIST_PLUGIN_NAME', plugin_basename(__FILE__));
-define('KWP_USERLIST_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('KWP_USERLIST_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('KWP_USERLIST_PLUGIN_VERSION', '1.0.0');
+define('KW_USERDISPLAY_PLUGIN_NAME', plugin_basename(__FILE__));
+define('KW_USERDISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('KW_USERDISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('KW_USERDISPLAY_PLUGIN_VERSION', '1.1.0');
 
 // Activation function
-function kwp_userlist_activate() {
+function kw_userdisplay_activate() {
     // ... empty for now
 }
-register_activation_hook(__FILE__, 'kwp_userlist_activate');
+register_activation_hook(__FILE__, 'kw_userdisplay_activate');
 
 // Deactivation function
-function kwp_userlist_deactivate() {
+function kw_userdisplay_deactivate() {
     // ... empty for now
 }
-register_deactivation_hook(__FILE__, 'kwp_userlist_deactivate');
+register_deactivation_hook(__FILE__, 'kw_userdisplay_deactivate');
 
 // Add the main file of the plugin
-require_once KWP_USERLIST_PLUGIN_PATH . 'includes/class-kwp-userlist.php';
+require_once KW_USERDISPLAY_PLUGIN_PATH . 'includes/class-kw-userdisplay.php';
 
 // Start the plugin
-KWP_UserList::instance();
+KW_UserDisplay::instance();

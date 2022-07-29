@@ -6,13 +6,13 @@ jQuery(document).ready(function ($) {
     jQuery(document).on('click', '.fa-sort-desc', handle_ajax);
 
     // Role filter
-    jQuery(document).on('click', '.kwp-role-name', handle_ajax);
+    jQuery(document).on('click', '.kw-role-name', handle_ajax);
 
     // Remove role filter
-    jQuery(document).on('click', '#kwp-role-remove', handle_ajax);
+    jQuery(document).on('click', '#kw-role-remove', handle_ajax);
 
     // Page selected
-    jQuery(document).on('click', '.kwp-page', handle_ajax);
+    jQuery(document).on('click', '.kw-page', handle_ajax);
 
     // Default state
     let currentState = {
@@ -23,7 +23,7 @@ jQuery(document).ready(function ($) {
     }
 
     // Default icons
-    jQuery('.kwp-filter-icons').hide();
+    jQuery('.kw-filter-icons').hide();
 
     // Default sorting
     jQuery('#username-ASC').addClass('active-sort');
@@ -40,15 +40,15 @@ jQuery(document).ready(function ($) {
         let elementClass = event.target.className;
  
         // Role clicked
-        if (elementClass === 'kwp-role-name' || elementId === 'kwp-role-remove') {
+        if (elementClass === 'kw-role-name' || elementId === 'kw-role-remove') {
 
             // Do nothing if filter is already activated
-            if (elementClass === 'kwp-role-name' && currentState.filter != 'all') {
+            if (elementClass === 'kw-role-name' && currentState.filter != 'all') {
                 return;
             }
 
             // Either set or remove the role filter
-            currentState.filter = (elementClass === 'kwp-role-name') ? jQuery(this).text() : 'all';
+            currentState.filter = (elementClass === 'kw-role-name') ? jQuery(this).text() : 'all';
 
             // Need to reset all other params in this case
             currentState.page = 1;
@@ -56,17 +56,17 @@ jQuery(document).ready(function ($) {
             currentState.sortby = 'user_login';
 
             // Show/hide sorting icons
-            jQuery('.kwp-filter-icons').toggle();
+            jQuery('.kw-filter-icons').toggle();
 
             // Remove all other sorting
             jQuery('.active-sort').removeClass('active-sort');
 
             // Add active sorting
-            jQuery('#kwp-filter-icon').addClass('active-sort');
+            jQuery('#kw-filter-icon').addClass('active-sort');
         }
 
         // Page clicked
-        else if (elementClass === 'kwp-page') {
+        else if (elementClass === 'kw-page') {
             currentState.page = jQuery(this).text();
         }
 
@@ -80,7 +80,7 @@ jQuery(document).ready(function ($) {
             currentState.page = 1;
 
             // Remove all other sorting
-            jQuery('.kwp-sort').removeClass('active-sort');
+            jQuery('.kw-sort').removeClass('active-sort');
             
             // Change the current sorting
             jQuery(this).addClass('active-sort');
@@ -89,11 +89,11 @@ jQuery(document).ready(function ($) {
         // Pass to data
         let data = {
             action: 'reload_table',
-            kwp_state: currentState,
+            kw_state: currentState,
         };
 
         // Get tbody element
-        let tbody = jQuery(".kwp-userlist-table tbody");
+        let tbody = jQuery(".kw-userdisplay-table tbody");
 
         jQuery.post(
             ajaxdata.url,

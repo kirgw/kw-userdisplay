@@ -3,21 +3,23 @@
 /**
  * The file defines the core plugin class
  *
- * @package    KWP_UserList
- * @subpackage KWP_UserList/includes
+ * @package    KW_UserDisplay
+ * @subpackage KW_UserDisplay/includes
  */
+
+namespace KW\UserDisplay;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KWP_UserList')) {
+if (!class_exists('KW_UserDisplay')) {
 
 /**
  * Main plguin class
  *
- * @class KWP_UserList
+ * @class KW_UserDisplay
  */
-final class KWP_UserList {
+final class KW_UserDisplay {
     
     /**
      * Plugin version
@@ -53,14 +55,14 @@ final class KWP_UserList {
     /**
      * Instance of the class
      *
-     * @var KWP_UserList
+     * @var KW_UserDisplay
      */
     protected static $_instance = null;
     
     /**
      * Store the main instance (singleton)
      *
-     * @return KWP_UserList
+     * @return KW_UserDisplay
      */
     public static function instance() {
         if (self::$_instance === null) {
@@ -78,10 +80,10 @@ final class KWP_UserList {
     public function __construct() {
 
         // Set the properties
-        $this->version = KWP_USERLIST_PLUGIN_VERSION;
-        $this->plugin_name = KWP_USERLIST_PLUGIN_NAME;
-        $this->plugin_path = KWP_USERLIST_PLUGIN_PATH;
-        $this->plugin_url = KWP_USERLIST_PLUGIN_URL;
+        $this->version = KW_USERDISPLAY_PLUGIN_VERSION;
+        $this->plugin_name = KW_USERDISPLAY_PLUGIN_NAME;
+        $this->plugin_path = KW_USERDISPLAY_PLUGIN_PATH;
+        $this->plugin_url = KW_USERDISPLAY_PLUGIN_URL;
 
         // Run the setup
         $this->load_classes();
@@ -91,7 +93,7 @@ final class KWP_UserList {
         add_action('init', array( $this, 'on_init'));
 
         // Add shortcode for the table
-        add_shortcode('kwp_userlist', array($this, 'render_table')); 
+        add_shortcode('kw_userdisplay', array($this, 'render_table')); 
 
         // AJAX hooks
         if (wp_doing_ajax()) {
@@ -111,9 +113,9 @@ final class KWP_UserList {
 
         // Define names
         $class_names = array(
-            'kwp-userlist-user',
-            'kwp-userlist-table',
-            'kwp-userlist-import',
+            'kw-userdisplay-user',
+            'kw-userdisplay-table',
+            'kw-userdisplay-import',
         );
 
         // Iterate and include all files
@@ -130,14 +132,14 @@ final class KWP_UserList {
      */
     public function enqueue_assets() {
 
-        wp_enqueue_style('kwp-userlist', $this->plugin_url . 'assets/kwp-userlist-style.css', array(), $this->version, 'all');
-        wp_enqueue_script('kwp-userlist', $this->plugin_url . 'assets/kwp-userlist-script.js', array('jquery'), $this->version, false);
+        wp_enqueue_style('kw-userdisplay', $this->plugin_url . 'assets/kw-userdisplay-style.css', array(), $this->version, 'all');
+        wp_enqueue_script('kw-userdisplay', $this->plugin_url . 'assets/kw-userdisplay-script.js', array('jquery'), $this->version, false);
 
         $ajaxdata = array(
             'url'   => admin_url('admin-ajax.php'),
         );
 
-        wp_localize_script('kwp-userlist', 'ajaxdata', $ajaxdata);
+        wp_localize_script('kw-userdisplay', 'ajaxdata', $ajaxdata);
     }
 
 
@@ -153,12 +155,12 @@ final class KWP_UserList {
         $locale = apply_filters('plugin_locale', $locale, $this->plugin_name);
 
         load_textdomain(
-            'kwp-userlist',
-            WP_LANG_DIR . '/kwp-userlist/kwp-userlist-' . $locale . '.mo'
+            'kw-userdisplay',
+            WP_LANG_DIR . '/kw-userdisplay/kw-userdisplay-' . $locale . '.mo'
         );
 
         load_plugin_textdomain(
-            'kwp-userlist',
+            'kw-userdisplay',
             false,
             $this->plugin_name . '/languages/'
         );
@@ -173,23 +175,23 @@ final class KWP_UserList {
     public function on_init() {
 
         // Handle import call
-        if (isset($_GET['kwp-userlist-import'])) {
+        if (isset($_GET['kw-userdisplay-import'])) {
 
             // Extract the type
-            $import_type = $_GET['kwp-userlist-import'];
+            $import_type = $_GET['kw-userdisplay-import'];
 
             // Check what's passed
             if (in_array($import_type, array('real', 'random'))) {
 
                 // Initialize import
-                $KWP_UserList_Import = new KWP_UserList_Import($import_type);
+                $KW_UserDisplay_Import = new KW_UserDisplay_Import($import_type);
 
                 // Perform it on the database
-                $KWP_UserList_Import->launch();
+                $KW_UserDisplay_Import->launch();
 
                 // Remove it
-                unset($KWP_UserList_Import);
-                unset($_GET['kwp-userlist-import']);
+                unset($KW_UserDisplay_Import);
+                unset($_GET['kw-userdisplay-import']);
             }
         }
 
@@ -226,10 +228,10 @@ final class KWP_UserList {
     public function render_table() {
 
         // Initialize the table
-        $KWP_UserList_Table = new KWP_UserList_Table();
+        $KW_UserDisplay_Table = new KW_UserDisplay_Table();
 
         // Get template and render the table with data
-        $KWP_UserList_Table->get_template('main');
+        $KW_UserDisplay_Table->get_template('main');
     }
 
 
@@ -240,26 +242,26 @@ final class KWP_UserList {
      */
     public function table_reload() {
 
-        // kwp_state:
+        // kw_state:
         // - sortby
         // - sorting
         // - filter
         // - page
 
         // Get the data passed
-        if (isset($_POST['kwp_state'])) {
-            $kwp_state = $_POST['kwp_state'];
+        if (isset($_POST['kw_state'])) {
+            $kw_state = $_POST['kw_state'];
         }
 
         // Set the params
-        $sort_by = ($kwp_state['sortby'] === 'email') ? 'user_email' : 'user_login';
-        $sort_type = $kwp_state['sorting'];
+        $sort_by = ($kw_state['sortby'] === 'email') ? 'user_email' : 'user_login';
+        $sort_type = $kw_state['sorting'];
 
         // Initialize the table
-        $KWP_UserList_Table = new KWP_UserList_Table($sort_type, $sort_by, $kwp_state['filter'], $kwp_state['page']);
+        $KW_UserDisplay_Table = new KW_UserDisplay_Table($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
 
         // Get data
-        $table_body_html = $KWP_UserList_Table->get_table_body_html($KWP_UserList_Table->table_data);
+        $table_body_html = $KW_UserDisplay_Table->get_table_body_html($KW_UserDisplay_Table->table_data);
 
         $result = json_encode(array(
             'table_html' => $table_body_html,   

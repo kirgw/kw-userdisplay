@@ -3,21 +3,21 @@
 /**
  * The file defines the table class
  *
- * @package    KWP_UserList_Import
- * @subpackage KWP_UserList/includes
+ * @package    KW_UserDisplay_Import
+ * @subpackage KW_UserDisplay/includes
  */
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KWP_UserList_Import')) {
+if (!class_exists('KW_UserDisplay_Import')) {
 
 /**
  * Table class that stores all the table data
  *
- * @class KWP_UserList_Import
+ * @class KW_UserDisplay_Import
  */
-class KWP_UserList_Import {
+class KW_UserDisplay_Import {
 
     /**
      * Import type
@@ -95,7 +95,7 @@ class KWP_UserList_Import {
     public static function parse_users_from_csv() {
 
         // Get sample file
-        $file = fopen(KWP_USERLIST_PLUGIN_URL . 'sample-users.csv', 'r');
+        $file = fopen(KW_USERDISPLAY_PLUGIN_URL . 'sample-users.csv', 'r');
 
         // Exit if file isn't opened
         if ($file === false) {
@@ -118,7 +118,7 @@ class KWP_UserList_Import {
             
             if (count($line_data) === 3) {
 
-                $users_data[] = new KWP_UserList_User(
+                $users_data[] = new KW_UserDisplay_User(
                     $line_data[0],
                     $line_data[1],
                     $line_data[2],
@@ -135,7 +135,7 @@ class KWP_UserList_Import {
     /**
      * Generate one random user
      *
-     * @return KWP_UserList_User
+     * @return KW_UserDisplay_User
      */
     public static function generate_random_user() {
 
@@ -146,7 +146,7 @@ class KWP_UserList_Import {
         $rand = rand();
         $uniqid = uniqid();
 
-        return new KWP_UserList_User(
+        return new KW_UserDisplay_User(
             $uniqid,
             $rand . '@' . $uniqid . '.com',
             $roles[rand(0, (count($roles)-1))]
@@ -164,7 +164,7 @@ class KWP_UserList_Import {
 
         $users_data = array();
 
-        // Iterate $amount times and create array of KWP_UserList_User users
+        // Iterate $amount times and create array of KW_UserDisplay_User users
         for ($i = 1; $i <= $amount; $i++) { 
             $users_data[] = self::generate_random_user();
         }
@@ -176,7 +176,7 @@ class KWP_UserList_Import {
     /**
      * Inserting the users into the database
      *
-     * @param array $users_data - array of KWP_UserList_User objects
+     * @param array $users_data - array of KW_UserDisplay_User objects
      * @return array $imported - import results
      */
     public static function insert_users_in_db($users_data) {
@@ -187,16 +187,16 @@ class KWP_UserList_Import {
             return false;
         }
 
-        foreach ($users_data as $userlist_user) {
+        foreach ($users_data as $userdisplay_user) {
 
-            if (username_exists($userlist_user->get_name())) {
+            if (username_exists($userdisplay_user->get_name())) {
                 continue;
             }
 
             $userdata = array(
-                'user_login' =>  $userlist_user->get_name(),
-                'user_email' =>  $userlist_user->get_email(),
-                'role'       =>  $userlist_user->get_role(),
+                'user_login' =>  $userdisplay_user->get_name(),
+                'user_email' =>  $userdisplay_user->get_email(),
+                'role'       =>  $userdisplay_user->get_role(),
                 'user_pass'  =>  '',
             );
              

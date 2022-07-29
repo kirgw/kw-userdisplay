@@ -3,21 +3,21 @@
 /**
  * The file defines the table class
  *
- * @package    KWP_UserList_Table
- * @subpackage KWP_UserList/includes
+ * @package    KW_UserDisplay_Table
+ * @subpackage KW_UserDisplay/includes
  */
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KWP_UserList_Table')) {
+if (!class_exists('KW_UserDisplay_Table')) {
 
 /**
  * Table class - all table data
  *
- * @class KWP_UserList_Table
+ * @class KW_UserDisplay_Table
  */
-class KWP_UserList_Table {
+class KW_UserDisplay_Table {
 
     // Sorting properties
     public $sorting;
@@ -71,9 +71,9 @@ class KWP_UserList_Table {
     public function get_labels() {
 
         return array(
-            'username' => __('User', KWP_USERLIST_PLUGIN_NAME),
-            'email'    => __('Email', KWP_USERLIST_PLUGIN_NAME),
-            'role'     => __('Role', KWP_USERLIST_PLUGIN_NAME),
+            'username' => __('User', KW_USERDISPLAY_PLUGIN_NAME),
+            'email'    => __('Email', KW_USERDISPLAY_PLUGIN_NAME),
+            'role'     => __('Role', KW_USERDISPLAY_PLUGIN_NAME),
         );
 
     }
@@ -134,7 +134,7 @@ class KWP_UserList_Table {
 
             $role = array_shift($user->roles);
 
-            $users_data[] = new KWP_UserList_User(
+            $users_data[] = new KW_UserDisplay_User(
                 $user->user_login,
                 $user->user_email,
                 $role,
@@ -165,7 +165,7 @@ class KWP_UserList_Table {
                 '<tr>
                     <td>' . $user->get_name() . '</td>
                     <td>' . $user->get_email() . '</td>
-                    <td><span class="kwp-role-name">' . $user->get_role() . '</span></td>
+                    <td><span class="kw-role-name">' . $user->get_role() . '</span></td>
                 </tr>';
 
         }
@@ -178,23 +178,23 @@ class KWP_UserList_Table {
             $html .= 
                 '<tr>
                     <td colspan="3">
-                        <div class="kwp-pagination">
+                        <div class="kw-pagination">
                             <div>';
 
             // Add page links
             for ($i = 1; $i <= $pages; $i++) {
                 if ($i != $this->current_page) {
-                    $html .= '<a href="#" class="kwp-page">' . $i . '</a> ';
+                    $html .= '<a href="#" class="kw-page">' . $i . '</a> ';
                 }
                 else {
-                    $html .= '<span class="kwp-page-active">' . $i . '</span> ';
+                    $html .= '<span class="kw-page-active">' . $i . '</span> ';
                 }
             }
 
             $html .= 
                            '</div>
                             <div>
-                                <i class="fa fa-user" title="' . __('Total users found', 'kwp-userlist') . '"></i> ' . $this->total_users . '
+                                <i class="fa fa-user" title="' . __('Total users found', 'kw-userdisplay') . '"></i> ' . $this->total_users . '
                             </div>
                         </div>
                     </td>
@@ -219,7 +219,7 @@ class KWP_UserList_Table {
         $table_body_html = $this->get_table_body_html($users_data);
 
         // Check the file and include
-        $filename = KWP_USERLIST_PLUGIN_PATH . 'templates/kwp-userlist-table-' . $type . '.php';
+        $filename = KW_USERDISPLAY_PLUGIN_PATH . 'templates/kw-userdisplay-table-' . $type . '.php';
 
         if (file_exists($filename)) {
             include $filename;

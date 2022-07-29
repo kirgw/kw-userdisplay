@@ -3,21 +3,21 @@
 /**
  * The file defines the user class
  *
- * @package    KWP_UserList_User
- * @subpackage KWP_UserList/includes
+ * @package    KW_UserDisplay_User
+ * @subpackage KW_UserDisplay/includes
  */
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KWP_UserList_User')) {
+if (!class_exists('KW_UserDisplay_User')) {
 
 /**
  * User class that stores all the user data
  *
- * @class KWP_UserList_User
+ * @class KW_UserDisplay_User
  */
-class KWP_UserList_User {
+class KW_UserDisplay_User {
     
     /**
      * User name

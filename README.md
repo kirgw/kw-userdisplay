@@ -1,4 +1,4 @@
-# KWP UserList
+# KW UserDisplay
 
 License: GPLv2 or later
 
@@ -10,7 +10,7 @@ Table is sortable, also can be filtered by user role, pagination per 10 users is
 Protected - can be seen only by admin users.
 
 ## Usage:
-Activated with `[kwp_userlist]` shortcode.
+Activated with `[kw_userdisplay]` shortcode.
 
 ## Features:
 * Import option to add sample data or generate random users data
