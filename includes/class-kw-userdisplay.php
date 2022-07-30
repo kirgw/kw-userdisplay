@@ -93,6 +93,7 @@ final class Init {
         // Add shortcode for the table
         //if (is_admin()) {
             add_shortcode('kw_userdisplay', array($this, 'render_table'));
+            
         //}
 
         // AJAX hooks
@@ -230,8 +231,12 @@ final class Init {
         // Initialize the table
         $KW_UserDisplay_Table = new \KW\UserDisplay\Inc\Table();
 
+        ob_start();
+
         // Get template and render the table with data
         $KW_UserDisplay_Table->get_template('main');
+
+        return ob_get_clean();   
     }
 
 
