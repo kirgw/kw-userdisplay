@@ -91,16 +91,13 @@ final class Init {
         add_action('init', array( $this, 'on_init'));
 
         // Add shortcode for the table
-        //if (is_admin()) {
-            add_shortcode('kw_userdisplay', array($this, 'render_table'));
-            
-        //}
+        add_shortcode('kw_userdisplay', array($this, 'content_load'));
 
         // AJAX hooks
         if (wp_doing_ajax()) {
-            add_action('wp_ajax_reload_table', array($this, 'table_reload'));
+            add_action('wp_ajax_reload_table', array($this, 'content_reload'));
             // public AJAX handler isn't needed yet
-            // add_action('wp_ajax_nopriv_reload_table', array($this, 'table_reload')); 
+            // add_action('wp_ajax_nopriv_reload_table', array($this, 'content_reload')); 
         }
     }
 
@@ -222,30 +219,29 @@ final class Init {
 
 
     /**
-     * Render the table (default view)
+     * Render the content (default view)
      *
      * @return void
      */
-    public function render_table() {
-
-        // Initialize the table
-        $KW_UserDisplay_Table = new \KW\UserDisplay\Inc\Table();
+    public function content_load() {
 
         ob_start();
 
         // Get template and render the table with data
-        $KW_UserDisplay_Table->get_template('main');
+        $this->get_template('table', 'main');
 
         return ob_get_clean();   
     }
 
 
     /**
-     * Table data (tbody) AJAX reload
+     * Render the part of the content - AJAX reload
      *
      * @return void
      */
-    public function table_reload() {
+    public function content_reload() {
+
+        // TODO - only table is handled now, rearrange for more general usage
 
         // kw_state:
         // - sortby
@@ -274,6 +270,76 @@ final class Init {
 
         echo $result;
         wp_die();
+    }
+
+
+    /**
+     * Include the templates
+     *
+     * @param string $template_name
+     * @param string $template_type
+     * @return void
+     */
+    public function get_template($template_name = 'table', $template_type = 'main') {
+
+        if ($template_name == 'table') {
+
+            // Initialize the table and set the data
+            $Table = new \KW\UserDisplay\Inc\Table();
+            $labels = $Table->table_labels;
+            $users_data = $Table->table_data;
+            $table_body_html = $Table->get_table_body_html($users_data);
+            
+            $data = $table_body_html;
+        }
+
+        // Check if allowed to display
+        $allowed = !empty($data) && self::is_allowed_to_view();
+
+        // Just an outline
+        // TODO - improve this with settings
+        $templates = array(
+            'list'        => array('files' => 1),
+            'single-user' => array('files' => 1),
+            'table'       => array('files' => 3),
+        );
+
+        // Set the files amount
+        $template_files = $templates[$template_name]['files'];
+
+        // Start building the template
+        $include_stack = array('templates/container-header.php');
+
+        // Set the path
+        $predefined_template_path = 'templates/' . $template_name . '-' . $template_type . '/' . $template_name . '-' . $template_type;
+
+        // Include the template if allowed
+        if ($allowed === true) {
+
+            if ($template_files == 1) {
+                $include_stack[] =  $predefined_template_path . '.php';
+            }
+
+            else if ($template_files == 3) {
+                $include_stack[] = $predefined_template_path . '-header.php';
+                $include_stack[] = $predefined_template_path . '-body.php';
+                $include_stack[] = $predefined_template_path . '-footer.php';
+            }
+        }
+
+        // Wrap the container
+        $include_stack[] = 'templates/container-footer.php';
+
+        // Check the files and include
+        foreach ($include_stack as $path) {
+
+            $filename = KW_USERDISPLAY_PLUGIN_PATH . $path;
+
+            if (file_exists($filename)) {
+                include $filename;
+            }
+        }
+
     }
 
 
