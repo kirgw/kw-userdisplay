@@ -10,7 +10,7 @@ defined('ABSPATH') || exit;
 
 </table>
 
-<?php if (count($users_data) < 10) : ?>
+<?php if (count($params['users_data']) < $params['object']->items_on_page) : ?>
 
     <div class="kw-userdisplay-import-links">
         <a href="?kw-userdisplay-import=real"><?php echo __('Import default users', 'kw-userdisplay'); ?></a>

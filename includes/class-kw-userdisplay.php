@@ -225,11 +225,13 @@ final class Init {
      */
     public function content_load() {
 
+        // Start the buffering
         ob_start();
 
         // Get template and render the table with data
         $this->get_template('table', 'main');
 
+        // Pass the buffer
         return ob_get_clean();   
     }
 
@@ -241,35 +243,18 @@ final class Init {
      */
     public function content_reload() {
 
-        // TODO - only table is handled now, rearrange for more general usage
-
-        // kw_state:
-        // - sortby
-        // - sorting
-        // - filter
-        // - page
-
-        // Get the data passed
+        // Get the posted data: array $kw_state('sortby', 'sorting', 'filter', 'page')
         if (isset($_POST['kw_state'])) {
             $kw_state = $_POST['kw_state'];
         }
 
-        // Set the params
-        $sort_by = ($kw_state['sortby'] === 'email') ? 'user_email' : 'user_login';
-        $sort_type = $kw_state['sorting'];
+        // TODO - only table is handled now, rearrange for more general usage
+        $content_type = 'table';
 
-        // Initialize the table
-        $KW_UserDisplay_Table = new \KW\UserDisplay\Inc\Table($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
-
-        // Get data
-        $table_body_html = $KW_UserDisplay_Table->get_table_body_html($KW_UserDisplay_Table->table_data);
-
-        $result = json_encode(array(
-            'table_html' => $table_body_html,   
-        ));
-
-        echo $result;
-        wp_die();
+        if ($content_type = 'table') {
+            // Call the table to reload
+            \KW\UserDisplay\Inc\Table::table_reload($kw_state);
+        }
     }
 
 
@@ -283,18 +268,19 @@ final class Init {
     public function get_template($template_name = 'table', $template_type = 'main') {
 
         if ($template_name == 'table') {
-
-            // Initialize the table and set the data
-            $Table = new \KW\UserDisplay\Inc\Table();
-            $labels = $Table->table_labels;
-            $users_data = $Table->table_data;
-            $table_body_html = $Table->get_table_body_html($users_data);
             
-            $data = $table_body_html;
+            // Initialize the table and prepare params
+            $Table = new \KW\UserDisplay\Inc\Table();
+
+            $params = array(
+                'object'     => $Table,
+                'labels'     => $Table->table_labels,
+                'users_data' => $Table->table_data,
+            );
         }
 
         // Check if allowed to display
-        $allowed = !empty($data) && self::is_allowed_to_view();
+        $allowed = !empty($params['users_data']) && self::is_allowed_to_view();
 
         // Just an outline
         // TODO - improve this with settings
