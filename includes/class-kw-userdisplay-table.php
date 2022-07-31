@@ -32,6 +32,7 @@ class Table {
     public $total_users;
     public $current_page;
     public $items_on_page;
+    public $total_pages;
 
     /**
      * Constructor
@@ -59,6 +60,7 @@ class Table {
 
         // Table data (users data)
         $this->total_users = $this->get_users_total();
+        $this->total_pages = $this->total_users > 0 ? ceil($this->total_users / $this->items_on_page) : 1;
         $this->table_data = $this->get_data();
     }
 
@@ -146,84 +148,44 @@ class Table {
 
 
     /**
-     * Get table body HTML
+     * Render the part of the content - AJAX reload
      *
-     * @param  mixed $users_data
-     * @return string $html
-     */
-    public function get_table_body_html($users_data) {
-        
-        // TODO: rearrange the templating system
-
-
-        $html = '';
-
-        // Iterate users data
-        foreach($users_data as $user) {
-
-            $html .= 
-                '<tr>
-                    <td>' . $user->get_name() . '</td>
-                    <td>' . $user->get_email() . '</td>
-                    <td><span class="kw-role-name">' . $user->get_role() . '</span></td>
-                </tr>';
-
-        }
-
-        // Is pagination needed?
-        if ($this->total_users > $this->items_on_page) {
-
-            $pages = ceil($this->total_users / $this->items_on_page);
-
-            $html .= 
-                '<tr>
-                    <td colspan="3">
-                        <div class="kw-pagination">
-                            <div>';
-
-            // Add page links
-            for ($i = 1; $i <= $pages; $i++) {
-                if ($i != $this->current_page) {
-                    $html .= '<a href="#" class="kw-page">' . $i . '</a> ';
-                }
-                else {
-                    $html .= '<span class="kw-page-active">' . $i . '</span> ';
-                }
-            }
-
-            $html .= 
-                           '</div>
-                            <div>
-                                <i class="fa fa-user" title="' . __('Total users found', 'kw-userdisplay') . '"></i> ' . $this->total_users . '
-                            </div>
-                        </div>
-                    </td>
-                </tr>';
-        }
-
-        return $html;
-    }
-
-
-    /**
-     * Include the table template
-     *
-     * @param string $type
+     * @param array $kw_state
      * @return void
      */
-    public function get_template($type = 'main') {
+    public static function table_reload(array $kw_state) {
 
-        // Pass the variables
-        $labels = $this->table_labels;
-        $users_data = $this->table_data;
-        $table_body_html = $this->get_table_body_html($users_data);
+        // Set the params - from array $kw_state('sortby', 'sorting', 'filter', 'page')
+        $sort_by = ($kw_state['sortby'] === 'email') ? 'user_email' : 'user_login';
+        $sort_type = $kw_state['sorting'];
 
-        // Check the file and include
-        $filename = KW_USERDISPLAY_PLUGIN_PATH . 'templates/kw-userdisplay-table-' . $type . '.php';
+        // Initialize the table
+        $Table = new self($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
+
+        // Set the params
+        $params = array(
+            'object'     => $Table,
+            'users_data' => $Table->table_data,
+        );
+
+        // Start the buffering
+        ob_start();
+
+        // Include the body template
+        $filename = KW_USERDISPLAY_PLUGIN_PATH . 'templates/table-main/table-main-body.php';
 
         if (file_exists($filename)) {
-            include $filename;
+             include $filename;
         }
+
+        // Pass the buffer back to JS
+        $result = json_encode(array(
+            'table_html' => ob_get_clean(),   
+        ));
+
+        echo $result;
+        wp_die();
     }
+
 
 }

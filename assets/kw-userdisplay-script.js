@@ -92,20 +92,16 @@ jQuery(document).ready(function ($) {
             kw_state: currentState,
         };
 
-        // Get tbody element
+        // Get table elements
+        let thead = jQuery(".kw-userdisplay-table thead");
         let tbody = jQuery(".kw-userdisplay-table tbody");
 
         jQuery.post(
             ajaxdata.url,
             data,
             function( response ) {
-
                 let tbody_html = jQuery.parseJSON( response ).table_html;
-
-                tbody.hide()
-                     .html('')
-                     .html( tbody_html )
-                     .fadeIn(100);
+                tbody.hide().html('').replaceWith(tbody_html).fadeIn(100);
             }
         );
 
