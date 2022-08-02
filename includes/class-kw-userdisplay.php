@@ -111,14 +111,15 @@ final class Init {
 
         // Define names
         $class_names = array(
-            'kw-userdisplay-user',
-            'kw-userdisplay-table',
-            'kw-userdisplay-import',
+            'user',
+            'table',
+            'import',
+            'admin-page',
         );
 
         // Iterate and include all files
         foreach ($class_names as $class_name) {
-            require_once $this->plugin_path . 'includes/class-' . $class_name . '.php';
+            require_once $this->plugin_path . 'includes/class-kw-userdisplay-' . $class_name . '.php';
         }
     }
 
