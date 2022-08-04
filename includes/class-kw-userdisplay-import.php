@@ -60,6 +60,11 @@ class UsersImport {
      */
     public function launch() {
 
+        // Check the access
+        if (Init::is_allowed_to_view() === false) {
+            return;
+        }
+
         // Prepare the data of selected type
         $this->users_data = self::prepare_users_data($this->import_type);
 
