@@ -62,6 +62,3 @@ defined('ABSPATH') || exit;
 <?php endif; ?>
 
 </tbody>
-
-
-

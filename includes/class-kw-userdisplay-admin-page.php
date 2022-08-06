@@ -13,7 +13,7 @@ namespace KW\UserDisplay\Inc;
 defined('ABSPATH') || exit;
 
 /**
- * Table class that stores all the table data
+ * Admin pages class
  *
  * @class KW\UserDisplay\Inc\AdminPages
  */

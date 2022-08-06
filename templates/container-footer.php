@@ -8,12 +8,8 @@ defined('ABSPATH') || exit;
 
 ?>
 
-<?php if ($allowed == false) : ?>
-
-<div class="kw-userdisplay-empty">
+<!-- <div class="kw-userdisplay-empty">  TODO
     <?php echo __('No data available.', 'kw-userdisplay'); ?>
-</div>
-
-<?php endif; ?>
+</div> -->
 
 </div>

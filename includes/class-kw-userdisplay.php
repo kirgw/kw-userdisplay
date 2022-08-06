@@ -95,8 +95,11 @@ final class Init {
 
         // AJAX hooks
         if (wp_doing_ajax()) {
+
+            // admin AJAX handler
             add_action('wp_ajax_reload_table', array($this, 'content_reload'));
-            // public AJAX handler isn't needed yet
+
+            // public AJAX handler, disabled for now
             // add_action('wp_ajax_nopriv_reload_table', array($this, 'content_reload')); 
         }
     }
@@ -200,7 +203,7 @@ final class Init {
 
 
     /**
-     * Allowed capability to view the table
+     * Allowed capability to view the table | TODO - allow to change + maybe multi-level
      *
      * @return string
      */
@@ -230,6 +233,7 @@ final class Init {
         ob_start();
 
         // Get template and render the table with data
+        // TODO - allow options
         $this->get_template('table', 'main');
 
         // Pass the buffer
@@ -249,7 +253,7 @@ final class Init {
             $kw_state = $_POST['kw_state'];
         }
 
-        // TODO - only table is handled now, rearrange for more general usage
+        // TODO - only table is handled now, need to change for more general usage
         $content_type = 'table';
 
         if ($content_type = 'table') {
@@ -284,7 +288,7 @@ final class Init {
         $allowed = !empty($params['users_data']) && self::is_allowed_to_view();
 
         // Just an outline
-        // TODO - improve this with settings
+        // TODO - improve this
         $templates = array(
             'list'        => array('files' => 1),
             'single-user' => array('files' => 1),

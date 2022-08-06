@@ -13,23 +13,19 @@ defined('ABSPATH') || exit;
 
     <h1>KW UserDisplay</h1>
 
-    <p>Various display options to show users on the frontend:</p>
-
-    <code>[kw_userdisplay]</code>
-
+    <p>Easily show users data on the frontend.</p>
 
     <h2>Usage</h2>
     <ul>
-    <li>Table - <code>[kw_userdisplay]</code></li>
-    <li>List - <code>[kw_userdisplay]</code> (to change)</li>
-    <li>Single user - <code>[kw_userdisplay]</code> (to change)</li>
+    <li>Table: <code>[kw_userdisplay]</code></li>
+    <li>List: <em>coming soon</em></li>
+    <li>Single user: <em>coming soon</em></li>
     </ul>
 
-    <h2>Customize</h2>
+    <h2>Customization</h2>
     <ul>
         <li>Translatable with .pot file</li>
         <li>Custom templates for table can be added</li>
     </ul>
-
 
 </div>

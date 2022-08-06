@@ -34,6 +34,3 @@ defined('ABSPATH') || exit;
         </tr>
     </thead>
 
-
-
-
