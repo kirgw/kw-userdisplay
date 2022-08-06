@@ -3,32 +3,36 @@
 /**
  * The file defines the table class
  *
- * @package    KWP_UserList_Table
- * @subpackage KWP_UserList/includes
+ * @package    KW\UserDisplay
+ * @subpackage KW\UserDisplay\Inc
  */
+
+namespace KW\UserDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
-if (!class_exists('KWP_UserList_Table')) {
-
 /**
  * Table class - all table data
  *
- * @class KWP_UserList_Table
+ * @class KW\UserDisplay\Inc\Table
  */
-class KWP_UserList_Table {
+class Table {
 
+    // Sorting properties
     public $sorting;
     public $sort_by;
     public $role_filter;
 
+    // Table data
     public $table_labels;
     public $table_data;
 
+    // Pagination
     public $total_users;
     public $current_page;
     public $items_on_page;
+    public $total_pages;
 
     /**
      * Constructor
@@ -56,6 +60,7 @@ class KWP_UserList_Table {
 
         // Table data (users data)
         $this->total_users = $this->get_users_total();
+        $this->total_pages = $this->total_users > 0 ? ceil($this->total_users / $this->items_on_page) : 1;
         $this->table_data = $this->get_data();
     }
 
@@ -68,9 +73,9 @@ class KWP_UserList_Table {
     public function get_labels() {
 
         return array(
-            'username' => __('User', KWP_USERLIST_PLUGIN_NAME),
-            'email'    => __('Email', KWP_USERLIST_PLUGIN_NAME),
-            'role'     => __('Role', KWP_USERLIST_PLUGIN_NAME),
+            'username' => __('User', KW_USERDISPLAY_PLUGIN_NAME),
+            'email'    => __('Email', KW_USERDISPLAY_PLUGIN_NAME),
+            'role'     => __('Role', KW_USERDISPLAY_PLUGIN_NAME),
         );
 
     }
@@ -131,7 +136,7 @@ class KWP_UserList_Table {
 
             $role = array_shift($user->roles);
 
-            $users_data[] = new KWP_UserList_User(
+            $users_data[] = new \KW\UserDisplay\Inc\User(
                 $user->user_login,
                 $user->user_email,
                 $role,
@@ -143,83 +148,44 @@ class KWP_UserList_Table {
 
 
     /**
-     * Get table body HTML
+     * Render the part of the content - AJAX reload
      *
-     * @param  mixed $users_data
-     * @return string $html
-     */
-    public function get_table_body_html($users_data) {
-
-        $html = '';
-
-        // Iterate users data
-        foreach($users_data as $user) {
-
-            $html .= 
-                '<tr>
-                    <td>' . $user->get_name() . '</td>
-                    <td>' . $user->get_email() . '</td>
-                    <td><span class="kwp-role-name">' . $user->get_role() . '</span></td>
-                </tr>';
-
-        }
-
-        // Is pagination needed?
-        if ($this->total_users > $this->items_on_page) {
-
-            $pages = ceil($this->total_users / $this->items_on_page);
-
-            $html .= 
-                '<tr>
-                    <td colspan="3">
-                        <div class="kwp-pagination">
-                            <div>';
-
-            // Add page links
-            for ($i = 1; $i <= $pages; $i++) {
-                if ($i != $this->current_page) {
-                    $html .= '<a href="#" class="kwp-page">' . $i . '</a> ';
-                }
-                else {
-                    $html .= '<span class="kwp-page-active">' . $i . '</span> ';
-                }
-            }
-
-            $html .= 
-                           '</div>
-                            <div>
-                                <i class="fa fa-user" title="' . __('Total users found', 'kwp-userlist') . '"></i> ' . $this->total_users . '
-                            </div>
-                        </div>
-                    </td>
-                </tr>';
-        }
-
-        return $html;
-    }
-
-
-    /**
-     * Include the table template
-     *
-     * @param string $type
+     * @param array $kw_state
      * @return void
      */
-    public function get_template($type = 'main') {
+    public static function table_reload(array $kw_state) {
 
-        // Pass the variables
-        $labels = $this->table_labels;
-        $users_data = $this->table_data;
-        $table_body_html = $this->get_table_body_html($users_data);
+        // Set the params - from array $kw_state('sortby', 'sorting', 'filter', 'page')
+        $sort_by = ($kw_state['sortby'] === 'email') ? 'user_email' : 'user_login';
+        $sort_type = $kw_state['sorting'];
 
-        // Check the file and include
-        $filename = KWP_USERLIST_PLUGIN_PATH . 'templates/kwp-userlist-table-' . $type . '.php';
+        // Initialize the table
+        $Table = new self($sort_type, $sort_by, $kw_state['filter'], $kw_state['page']);
+
+        // Set the params
+        $params = array(
+            'object'     => $Table,
+            'users_data' => $Table->table_data,
+        );
+
+        // Start the buffering
+        ob_start();
+
+        // Include the body template
+        $filename = KW_USERDISPLAY_PLUGIN_PATH . 'templates/table-main/table-main-body.php';
 
         if (file_exists($filename)) {
-            include $filename;
+             include $filename;
         }
+
+        // Pass the buffer back to JS
+        $result = json_encode(array(
+            'table_html' => ob_get_clean(),   
+        ));
+
+        echo $result;
+        wp_die();
     }
 
 
-}
 }
