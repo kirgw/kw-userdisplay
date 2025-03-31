@@ -5,6 +5,143 @@ namespace KW\UserDisplay\Inc;
 class UserData {
 
 
+    // Properties passed from shortcode
+    private $args;
+
+    // Default shortcode types
+    private $default_types = ['card', 'list', 'table', 'leaderboard'];
+
+
+    /**
+     * Constructor
+     *
+     * @param array $args {
+     *     @type string $type       Shortcode type (as in $default_types)
+     *     @type string $role       Role to filter by
+     *     @type int    $limit      Number of users to display per page (optional, default: 100).
+     *     @type string $meta_key   Meta field to filter by
+     * }
+     */
+    public function __construct($args) {
+        $this->args = $args;
+    }
+
+
+    /**
+     * Retrieves user data based on the shortcode type specified in the arguments.
+     *
+     * @return array|\WP_Error Returns an array of user data if successful,
+     *                         or a \WP_Error object if the type is invalid or no data is found.
+     */
+    public function get_data() {
+
+        $data = [];
+
+        // Validate shortcode type
+        if (!in_array($this->args['type'], $this->default_types, true)) {
+            return new \WP_Error('invalid_type', 'Invalid shortcode type.');
+        }
+
+        // Fetch data based on type
+        switch ($this->args['type']) {
+
+            case 'card':
+                $data = $this->get_single_user($this->args['uid']);
+                break;
+
+            default:
+                $data = $this->get_multiple_users();
+        }
+
+        // Check if data exists
+        if (empty($data)) {
+            return new \WP_Error('no_data', 'No user data found.');
+        }
+
+        return $data;
+    }
+
+
+    /**
+     * Retrieves multiple users based on the constructor arguments.
+     *
+     * This method constructs a WP_User_Query using parameters from the class's $args property,
+     * including role filtering, pagination (limit/offset), ordering, and meta field filtering.
+     * Returns an array of user objects ready for display in list/table/leaderboard formats.
+     *
+     * @return array Array of WP_User objects or empty array if no users match.
+     */
+    private function get_multiple_users(): array {
+
+        $user_ids = [];
+
+        // Handle uids parameter
+        if (!empty($this->args['uids'])) {
+            $user_ids = array_map('intval', explode(',', $this->args['uids']));
+        }
+
+        // Fallback to role-based query
+        else {
+
+            // Set query arguments
+            $query_args = [
+                'fields' => 'ids'
+            ];
+
+            // Check role filter
+            if ($this->args['role']) $query_args['role'] = $this->args['role'];
+
+            // Check limit
+            $query_args['number'] = $this->args['limit'] > 0 ? $this->args['limit'] : 100; // default limit is 100
+
+            // Check for meta_key filter
+            if ($this->args['meta_key']) {
+                $query_args['meta_key'] = $this->args['meta_key'];
+                $query_args['orderby'] = 'meta_value';
+            }
+
+            // Query the users
+            $user_ids = \get_users($query_args);
+        }
+
+        // Fetch and validate each user
+        $users_found = [];
+
+        // Iterate either found IDs or provided in shortcode
+        foreach ($user_ids as $id) {
+            $user = $this->get_single_user($id);
+            if ($user) $users_found[] = $user;
+        }
+
+        return $users_found;
+    }
+
+
+    /**
+     * Retrieves a single user's data by user ID.
+     *
+     * Fetches core user data using get_userdata() and collects additional meta information.
+     * Returns a formatted array with user ID, display name, email, and metadata.
+     *
+     * @param int $user_id The ID of the user to fetch.
+     * @return array|null Array of user data if found, null if user doesn't exist.
+     */
+    private function get_single_user(int $user_id): ?array {
+
+        // Get WordPress user object
+        $user = get_userdata($user_id);
+        if (!$user) return null;
+
+        // Return formatted user data array
+        return [
+            'id'    => $user->ID,
+            'name'  => $user->display_name,
+            'email' => $user->user_email,
+            'meta'  => self::get_user_metadata($user->ID) // calls inner method for metadata
+        ];
+    }
+
+
     /**
      * Get the global fields
      * Reads the selected meta fields from the settings page and sets them as the global fields.
@@ -19,13 +156,14 @@ class UserData {
         return !empty($options) ? $options : $default_options;
     }
 
+
     /**
      * Get user data for a single user.
      *
      * @param int $user_id User ID.
      * @return array array of user data (empty if user not found).
      */
-    public static function get_user_data(int $user_id): array {
+    public static function get_user_metadata(int $user_id): array {
 
         // Placeholder
         $user_data = array();
@@ -34,9 +172,6 @@ class UserData {
 
         // Default data
         $user = get_userdata($user_id);
-
-        // // Meta data
-        // $user_meta = get_user_meta($user_id);
 
         if (!$user) {
             error_log(KW_USERDISPLAY_SLUG . " error: Invalid user ID {$user_id}");
@@ -50,112 +185,23 @@ class UserData {
                 $user_data[$field] = esc_html($user->$field);
             }
 
+            // If not a property, try to get it as user meta
             else {
-                // If not a property, try to get it as user meta
+
                 $meta_value = get_user_meta($user_id, $field, true);
 
-                // Check if a meta value was found
+                // Check if a meta value was found + escape it
                 if (!empty($meta_value)) {
                     $user_data[$field] = esc_html($meta_value);
                 }
-                // else {
-                //     // Optionally, handle cases where the meta field is not found: null or skip
-                //     // $user_data[$field] = null;
-                // }
+
+                // Handle cases where the meta field is not found
+                else {
+                    $user_data[$field] = "N/A ({$field})";
+                }
             }
         }
 
         return $user_data;
     }
-
-
-    /**
-     * Get user IDs based on the parameters
-     *
-     * @param array $args {
-     *     @type string $orderby  Field to order by (default: 'user_login').
-     *     @type string $order    Order direction (ASC/DESC, default: 'ASC').
-     *     @type string $role     Role to filter by (default: '' for all roles).
-     *     @type int    $number   Number of users per page (default: 100).
-     *     @type int    $offset   Pagination offset (default: 0).
-     * }
-     * @return array {
-     *     @type array  $users       List of user data.
-     *     @type int    $total_users Total users matching query.
-     * }
-     */
-    public static function get_users(array $args = []): array {
-
-        // Apply defaults to $args
-        $defaults = array(
-            'orderby' => 'user_login',
-            'order'   => 'ASC',
-            'role'    => '', // no role filter
-            'number'  => 100, // default limit
-            'offset'  => 0,
-            // 'fields'  => [], // Array of meta fields to retrieve: not needed anymore
-        );
-
-        // Validate orderby to prevent invalid SQL queries
-        $allowed_orderby = ['user_login', 'user_email', 'display_name', 'ID', 'role'];
-        if (!in_array($args['orderby'], $allowed_orderby, true)) {
-            $args['orderby'] = 'user_login';
-        }
-
-        $args = wp_parse_args($args, $defaults);
-
-        // Build the WP_User_Query args
-        $query_args = array(
-            'orderby' => $args['orderby'],
-            'order'   => $args['order'],
-            'number'  => $args['number'],
-            'offset'  => $args['offset'],
-            'fields'  => ['ID', 'user_login', 'user_email', 'roles'],
-        );
-
-        // Check the role filter
-        if (!empty($args['role']) && $args['role'] !== 'all') {
-            $query_args['role'] =  $args['role'];
-        }
-
-        // TODO:
-        // Maybe cache the request results
-        // $cache_key = md5(json_encode($query_args));
-        // $cache_key = 'kw_userdisplay_users_' . md5(serialize($args));
-        // $cached = get_transient($cache_key);
-        // if ($cached) return $cached;
-        // // ... (after query)
-        // set_transient($cache_key, $formatted_users, HOUR_IN_SECONDS);
-
-        $user_query = new \WP_User_Query($query_args);
-        $users = $user_query->get_results();
-
-        // Get the total number of users
-        $total_users = $user_query->get_total();
-
-        $formatted_users = [];
-        $user_ids = [];
-
-        foreach ($users as $user) {
-
-            // Saving ids
-            $user_ids[] = $user->ID;
-
-            // Saving some data (redundant right now!)
-            $formatted_users[$user->ID] = array(
-                'user_login' => $user->user_login,
-                'user_email' => $user->user_email,
-                'role'       => !empty($user->roles) ? array_shift($user->roles) : '',
-            );
-        }
-
-        // Saving the totals (might be needed for sorting)
-        return array(
-            'users'       => $formatted_users,
-            'user_ids'    => $user_ids,
-            'total_users' => $total_users,
-        );
-    }
-
-
 }
