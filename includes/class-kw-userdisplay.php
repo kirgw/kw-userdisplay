@@ -176,27 +176,6 @@ final class Init {
      */
     public function on_init() {
 
-        // Handle import call
-        if (isset($_GET['kw-userdisplay-import'])) {
-
-            // Extract the type
-            $import_type = $_GET['kw-userdisplay-import'];
-
-            // Check what's passed
-            if (in_array($import_type, array('real', 'random'))) {
-
-                // Initialize import
-                $KW_UserDisplay_Import = new \KW\UserDisplay\Inc\UsersImport($import_type);
-
-                // Perform it on the database
-                $KW_UserDisplay_Import->launch();
-
-                // Remove it
-                unset($KW_UserDisplay_Import);
-                unset($_GET['kw-userdisplay-import']);
-            }
-        }
-
         // Load assets
         $this->enqueue_assets();
     }
