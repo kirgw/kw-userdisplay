@@ -91,7 +91,7 @@ class AdminPages {
         $screen = get_current_screen();
 
         if ($screen->id === 'toplevel_page_' . $this->menu_slug) {
-            wp_enqueue_style('kw-userdisplay-admin-styles', KW_USERDISPLAY_PLUGIN_URL . 'assets/admin.css');
+            wp_enqueue_style('kw-userdisplay-admin-styles', KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css');
         }
     }
 
