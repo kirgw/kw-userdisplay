@@ -61,7 +61,7 @@ class AdminPages {
                     'page_title' => 'Settings',
                     'menu_title' => 'Settings',
                     'capability' => $this->menu_capability,
-                    'menu_slug'  => $this->menu_slug . '-settings',
+                    'menu_slug'  => $this->menu_slug, // . '-settings',
                     'callback'   => 'render_admin_page_settings',
                 ],
                 [
@@ -85,13 +85,29 @@ class AdminPages {
     }
 
 
+
+    /**
+     * Enqueue admin styles
+     *
+     * Checks admin page (containing the menu slug),
+     * loads the admin styles for that page.
+     *
+     * @return void
+     */
     public function enqueue_admin_styles() {
 
         // Check if we're on our admin page
         $screen = get_current_screen();
 
-        if ($screen->id === 'toplevel_page_' . $this->menu_slug) {
-            wp_enqueue_style('kw-userdisplay-admin-styles', KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css');
+        // Load for all admin pages containing your menu slug (including subpages)
+        if (strpos($screen->id, $this->menu_slug) !== false) {
+
+            wp_enqueue_style(
+                'kw-userdisplay-admin-styles',
+                KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css',
+                array(),
+                filemtime(plugin_dir_path(__FILE__) . 'assets/kw-userdisplay-admin-style.css')
+            );
         }
     }
 
@@ -317,8 +333,8 @@ class AdminPages {
      * @return void
      */
     public function render_default_fields_section_description() {
-        echo '<p>Select the default user fields to display.</p>';
-        echo '<p><b>Note: Defaults fields will be displayed with a human-readable title.</b></p>';
+        echo '<p>Select the default user fields to include in template.</p>';
+        echo '<p><b>Only default fields displayed with more readable label.</b></p>';
     }
 
 
@@ -328,7 +344,7 @@ class AdminPages {
      * @return void
      */
     public function render_custom_fields_section_description() {
-        echo '<p>Select the custom user meta fields to display.</p>';
+        echo '<p>Select the custom user meta fields to include in template.</p>';
     }
 
 

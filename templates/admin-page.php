@@ -13,7 +13,9 @@ defined('ABSPATH') || exit;
 
     <h1>KW UserDisplay</h1>
 
-    <p>Easily show users data on the frontend.</p>
+    <p>Easily display <em>any</em> users data on your website.</p>
+
+    <hr />
 
     <div class="wrap">
 

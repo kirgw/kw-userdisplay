@@ -3,7 +3,7 @@
 * Plugin Name: KW UserDisplay (former KWP UserList)
 * Description: Plugin to show the sortable user list
 * Author: Kirill G.
-* Version: 1.1.0
+* Version: 2.0
 * License: GPLv2 or later
 * Text Domain: kw-userdisplay
 */
@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
 define('KW_USERDISPLAY_PLUGIN_NAME', plugin_basename(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('KW_USERDISPLAY_PLUGIN_VERSION', '1.1.0');
+define('KW_USERDISPLAY_PLUGIN_VERSION', '2.0');
 
 // Activation function
 function kw_userdisplay_activate() {

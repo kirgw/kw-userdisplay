@@ -39,7 +39,7 @@
 /* Styles for shortcode builder */
 .kw-userdisplay-admin-container {
     max-width: 800px;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 20px;
     background: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);

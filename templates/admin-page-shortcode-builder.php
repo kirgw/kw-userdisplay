@@ -9,11 +9,20 @@
 defined('ABSPATH') || exit;
 
 ?>
+
 <div class="kw-userdisplay-admin-container">
-    <h1>KW UserDisplay Shortcode Builder</h1>
-    <p>Generate custom shortcodes to display user information on your website.</p>
+
+    <h1>KW UserDisplay</h1>
+
+    <p>Easily display <em>any</em> users data on your website.</p>
+
+    <hr />
 
     <div class="wrap">
+
+        <h1>Shortcode Builder</h1>
+        <p>Generate custom shortcodes to display user information on your website.</p>
+
         <form id="kw-userdisplay-shortcode-form">
             <table class="form-table">
                 <tr>
