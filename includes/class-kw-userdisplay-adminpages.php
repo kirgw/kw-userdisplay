@@ -640,4 +640,5 @@ class AdminPages {
     }
 }
 
-new AdminPages();
+
+
