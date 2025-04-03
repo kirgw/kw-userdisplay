@@ -23,6 +23,9 @@ final class Init {
      */
     protected static $_instance = null;
 
+    // Class instances
+    public $admin_page;
+    public $shortcode_handler;
 
     /**
      * Store the main instance (singleton)
@@ -44,8 +47,12 @@ final class Init {
      */
     public function __construct() {
 
-        // Run the setup
-        // $this->load_classes();
+        // Load needed classes with autoloader
+        $this->admin_page = new AdminPages();
+        $this->shortcode_handler = new ShortcodeHandler();
+        // UserData and TemplateHandler called later by ShortcodeHandler
+
+        // Set locale
         $this->set_locale();
 
         // Init hook
@@ -53,29 +60,6 @@ final class Init {
 
         // Register shortcodes:
         // Since 2.0 done in ShortcodeHandler class
-
-    }
-
-
-    /**
-     * Load all the needed classes
-     *
-     * @return void
-     */
-    public function load_classes() {
-
-        // Define names
-        $class_names = array(
-            'shortcode-handler',
-            'userdata',
-            'template-handler',
-            'admin-page',
-        );
-
-        // Iterate and include all files
-        foreach ($class_names as $class_name) {
-            require_once KW_USERDISPLAY_PLUGIN_PATH . 'includes/class-kw-userdisplay-' . $class_name . '.php';
-        }
     }
 
 

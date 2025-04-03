@@ -19,20 +19,37 @@ define('KW_USERDISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_VERSION', '2.0');
 
-// Activation function
-function kw_userdisplay_activate() {
-    // ... empty for now
-}
-register_activation_hook(__FILE__, 'kw_userdisplay_activate');
+// PSR-4 Autoloader (WordPress-style class names)
+spl_autoload_register(function ($class) {
 
-// Deactivation function
-function kw_userdisplay_deactivate() {
-    // ... empty for now
-}
-register_deactivation_hook(__FILE__, 'kw_userdisplay_deactivate');
+    $prefix = 'KW\\UserDisplay\\';
+    $base_dir = KW_USERDISPLAY_PLUGIN_PATH . 'includes/';
 
-// Add the main file of the plugin
-require_once KW_USERDISPLAY_PLUGIN_PATH . 'includes/class-kw-userdisplay.php';
+    // Check if the class uses the namespace prefix
+    $len = strlen($prefix);
+    if (strncmp($prefix, $class, $len) !== 0) {
+        return;
+    }
+
+    // Convert namespace to WordPress-style class filename
+    $relative_class = substr($class, $len);
+    $relative_class = str_replace('Inc\\', '', $relative_class); // rem "Inc\" from the path
+    $relative_class = ltrim($relative_class, '\\');
+
+    // Remove leading slashes and replace namespace separators with hyphens
+    $file_name = str_replace('\\', '-', $relative_class);
+
+    // Construct the file path
+    $file = $base_dir . 'class-kw-userdisplay-' . strtolower($file_name) . '.php';
+
+    // Check if the file exists
+    if (file_exists($file)) {
+        require $file;
+    }
+    elseif (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log("Autoloader failed: Class {$class} not found at {$file}");
+    }
+});
 
 // Start the plugin
 \KW\UserDisplay\Inc\Init::instance();
