@@ -174,7 +174,7 @@ class UserData {
         $user = get_userdata($user_id);
 
         if (!$user) {
-            error_log(KW_USERDISPLAY_SLUG . " error: Invalid user ID {$user_id}");
+            // error_log(KW_USERDISPLAY_SLUG . " error: Invalid user ID {$user_id}");
             return $user_data;
         }
 

@@ -25,9 +25,6 @@ class AdminPages {
     // Set the base menu slug (also used in sub-pages as a prefix)
     private $menu_slug = 'kw-user-display';
 
-    // Set the text domain to main constant value
-    private $text_domain = KW_USERDISPLAY_I18N;
-
     // Placeholder to store the settings pages
     private $settings_pages = [];
 
@@ -106,7 +103,7 @@ class AdminPages {
                 'kw-userdisplay-admin-styles',
                 KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css',
                 array(),
-                filemtime(plugin_dir_path(__FILE__) . 'assets/kw-userdisplay-admin-style.css')
+                KW_USERDISPLAY_PLUGIN_VERSION
             );
         }
     }
@@ -572,8 +569,6 @@ class AdminPages {
      * @return void
      */
     public function render_meta_field_checkbox($args) {
-
-        error_log(print_r($args, true));
 
         $meta_field = $args['meta_field'];
 
