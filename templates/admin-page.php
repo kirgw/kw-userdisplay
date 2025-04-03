@@ -15,17 +15,26 @@ defined('ABSPATH') || exit;
 
     <p>Easily show users data on the frontend.</p>
 
-    <h2>Usage</h2>
-    <ul>
-    <li>Table: <code>[kw_userdisplay]</code></li>
-    <li>List: <em>coming soon</em></li>
-    <li>Single user: <em>coming soon</em></li>
-    </ul>
+    <div class="wrap">
 
-    <h2>Customization</h2>
-    <ul>
-        <li>Translatable with .pot file</li>
-        <li>Custom templates for table can be added</li>
-    </ul>
+        <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+
+        <form method="post" action="options.php">
+
+            <?php
+
+            settings_fields('kw_user_display_settings_group');
+            do_settings_sections('kw-user-display');
+
+            // Close the table after the settings fields are rendered.
+            echo '</tbody></table>';
+
+            submit_button();
+
+            ?>
+
+        </form>
+
+    </div>
 
 </div>
