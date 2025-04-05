@@ -1,0 +1,72 @@
+/* Target the form-table */
+.form-table {
+    width: 100%;
+    border-collapse: collapse;
+    /* Required for striped effect */
+    margin-top: 1em;
+}
+
+.form-table th,
+.form-table td {
+    padding: 8px 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.form-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+    /* Striped effect */
+}
+
+/* Style the labels */
+.form-table th {
+    width: 200px;
+    font-weight: bold;
+}
+
+.form-table input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.dashicons-yes {
+    color: green;
+}
+
+.dashicons-no-alt {
+    color: red;
+}
+
+/* Styles for shortcode builder */
+.kgwp-user-data-display-admin-container {
+    max-width: 800px;
+    /* margin: 0 auto; */
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#shortcode-result {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+#generated-shortcode {
+    width: 100%;
+    font-family: monospace;
+    background: #f0f0f1;
+    border: 1px solid #8c8f94;
+    padding: 5px;
+}
+
+.type-dependent {
+    display: none;
+}
+
+.postbox {
+    margin-top: 20px;
+}
+
+.postbox .inside {
+    padding: 10px;
+}

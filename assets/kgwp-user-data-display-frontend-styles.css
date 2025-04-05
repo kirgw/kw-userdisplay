@@ -1,0 +1,474 @@
+:root {
+    --kgwp-udd-primary: #3498db;
+    --kgwp-udd-gray-light: #f8f9fa;
+    --kgwp-udd-gray-medium: #e7e7e7;
+    --kgwp-udd-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    --kgwp-udd-user-svg: 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23666"/><path fill="%23fff" d="M50 60c-11 0-20-9-20-20s9-20 20-20 20 9 20 20-9 20-20 20z"/></svg>';
+    --kgwp-udd-user-png: 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+}
+
+
+/*
+=============================
+CARD SHORTCODE CSS
+=============================
+*/
+
+.kgwp-user-data-display-card {
+    width: 300px;
+    height: 150px;
+    border-radius: 10px;
+    position: relative;
+    perspective: 1000px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 50px auto;
+}
+
+.kgwp-user-data-display-card .front,
+.kgwp-user-data-display-card .back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    border-radius: 10px;
+    display: flex;
+    transition: transform 0.6s;
+}
+
+
+
+.kgwp-user-data-display-card .front {
+    background: white;
+                         transform: rotateY(180deg); /* Front starts flipped */
+}
+
+.kgwp-user-data-display-card .back {
+    background: repeating-linear-gradient(45deg,
+            #606dbc,
+            #606dbc 10px,
+            #4a5f91 10px,
+            #4a5f91 20px);
+    /* transform: rotateY(180deg); */
+                        transform: rotateY(0deg); /* Back starts visible */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.kgwp-user-data-display-card:hover .front {
+    /* opacity: 0; */
+    /* transform: rotateY(180deg); */
+}
+
+.kgwp-user-data-display-card:hover .back {
+    /* opacity: 1; */
+    /* transform: rotateY(0deg); */
+}
+
+
+.kgwp-user-data-display-card:hover .front {
+    transform: rotateY(0deg); /* Front rotates to visible on hover */
+}
+
+.kgwp-user-data-display-card:hover .back {
+    transform: rotateY(180deg); /* Back rotates to hidden on hover */
+}
+
+
+.kgwp-user-data-display-card .avatar {
+    width: 120px;
+    height: 100%;
+    background: #ccc;
+    border-radius: 10px 0 0 10px;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/149/149071.png');
+    background-size: 80px;
+    background-position: center;
+    background-repeat: no-repeat;
+    flex-shrink: 0;
+}
+
+.kgwp-user-data-display-card .content {
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+    overflow: hidden;
+}
+
+.kgwp-user-data-display-card .username {
+    font-weight: bold;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-card .profile-link {
+    color: #007bff;
+    text-decoration: none;
+    margin: 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-card .full-name {
+    margin: 5px 0;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-card .description {
+    margin: 5px 0;
+    color: #999;
+    font-size: 0.8em;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+/*
+=============================
+USER LIST SHORTCODE CSS
+=============================
+*/
+
+.kgwp-user-data-display-list {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.kgwp-user-data-display-list .user-item {
+    display: flex;
+    align-items: center;
+    padding: 18px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    margin-bottom: 12px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    position: relative;
+}
+
+.kgwp-user-data-display-list .user-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.kgwp-user-data-display-list .user-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #eee, transparent);
+    opacity: 0.3;
+}
+
+.kgwp-user-data-display-list .user-item:last-child {
+    margin-bottom: 0;
+}
+
+.kgwp-user-data-display-list .avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    background: #f0f0f0;
+    border-radius: 8px;
+    margin-right: 15px;
+    flex-shrink: 0;
+    background-image: url('https://cdn-icons-png.flaticon.com/512/149/149071.png');
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.kgwp-user-data-display-list .user-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.kgwp-user-data-display-list .username {
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-list .full-name {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 0 0 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-list .description {
+    font-size: 0.85em;
+    color: #95a5a6;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-list .profile-link {
+    margin-left: 15px;
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8em;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.kgwp-user-data-display-list .user-item:hover .profile-link {
+    transform: translateX(5px);
+}
+
+@media (max-width: 600px) {
+    .kgwp-user-data-display-list {
+        padding: 0 10px;
+    }
+
+    .kgwp-user-data-display-list .user-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px;
+    }
+
+    .kgwp-user-data-display-list .avatar-placeholder {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+
+    .kgwp-user-data-display-list .profile-link {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+
+/*
+=============================
+USER TABLE SHORTCODE CSS
+=============================
+*/
+
+.kgwp-user-data-display-table {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    border-collapse: collapse;
+    box-shadow: var(--kgwp-udd-shadow);
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+}
+
+.kgwp-user-data-display-table thead {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+}
+
+.kgwp-user-data-display-table th {
+    padding: 18px 24px;
+    font-weight: 600;
+    color: #333;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.kgwp-user-data-display-table th:hover {
+    background: #f0f0f0;
+}
+
+.kgwp-user-data-display-table th::after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #666;
+    opacity: 0.3;
+    transition: transform 0.3s;
+}
+
+.kgwp-user-data-display-table th.sorted.asc::after {
+    border-bottom: none;
+    border-top: 5px solid #333;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.kgwp-user-data-display-table th.sorted.desc::after {
+    border-bottom: none;
+    border-top: 5px solid #333;
+}
+
+.kgwp-user-data-display-table tbody tr {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.kgwp-user-data-display-table tbody tr:hover {
+    transform: translateX(5px);
+    box-shadow: inset 5px 0 0 var(--kgwp-udd-primary);
+}
+
+.kgwp-user-data-display-table td {
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--kgwp-udd-gray-medium);
+    vertical-align: middle;
+}
+
+.kgwp-user-data-display-table td:first-child {
+    font-weight: 600;
+    color: var(--kgwp-udd-primary);
+}
+
+.kgwp-user-data-display-table .edit-link {
+    color: var(--kgwp-udd-primary);
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.kgwp-user-data-display-table .edit-link:hover {
+    background: rgba(52, 152, 219, 0.1);
+}
+
+.kgwp-fade-enter-active,
+.kgwp-fade-leave-active {
+    transition: opacity 0.5s;
+}
+
+.kgwp-fade-enter,
+.kgwp-fade-leave-to {
+    opacity: 0;
+}
+
+
+/*
+=============================
+USER CARD 2 SHORTCODE CSS
+=============================
+*/
+
+.kgwp-user-data-display-card-simple {
+    width: 300px;
+    height: 120px;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ffffff, #f0f0f0);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    margin: 50px auto;
+}
+
+.kgwp-user-data-display-card-simple:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.kgwp-user-data-display-card-simple::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(255,255,255,0.5), rgba(255,255,255,0));
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.kgwp-user-data-display-card-simple:hover::before {
+    opacity: 1;
+}
+
+.kgwp-user-data-display-card-simple .content {
+    position: relative;
+    z-index: 1;
+}
+
+.kgwp-user-data-display-card-simple .username {
+    font-size: 1.1em;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-card-simple .full-name {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin: 0 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.kgwp-user-data-display-card-simple .description {
+    font-size: 0.8em;
+    color: #95a5a6;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 20px; /* Added margin to prevent overlap */
+}
+
+.kgwp-user-data-display-card-simple .profile-link {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    background: #3498db;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    font-size: 0.8em;
+}
+
+.kgwp-user-data-display-card-simple:hover .profile-link {
+    opacity: 1;
+    transform: translateY(0);
+}
