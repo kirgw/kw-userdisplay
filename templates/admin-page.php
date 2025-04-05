@@ -12,9 +12,9 @@ defined('ABSPATH') || exit;
 
 <div class="kgwp-user-data-display-admin-container">
 
-    <h1>KG WP User Data Display</h1>
+    <h1><?php _e('KG WP User Data Display', KGWP_USERDATADISPLAY_SLUG); ?></h1>
 
-    <p>Easily display <em>any</em> users data on your website.</p>
+    <p><?php _e('Easily display <em>any</em> users data on your website.', KGWP_USERDATADISPLAY_SLUG); ?></p>
 
     <hr />
 

@@ -47,7 +47,7 @@ defined('ABSPATH') || exit;
                 <?php echo $meta['description']; ?>
             </div>
         </div>
-        <a href="<?php echo esc_url(isset($meta['user_url']) ? $meta['user_url'] : '#'); ?>" class="profile-link">VIEW</a>
+        <a href="<?php echo esc_url(isset($meta['user_url']) ? $meta['user_url'] : '#'); ?>" class="profile-link"><?php _e( 'VIEW', KGWP_USERDATADISPLAY_SLUG ); ?></a>
     </div>
 
     <?php endforeach; ?>

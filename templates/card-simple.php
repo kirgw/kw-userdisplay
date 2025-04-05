@@ -32,6 +32,6 @@ $meta = $data['meta'];
         </div>
     </div>
 
-    <a href="<?php echo esc_url(isset($meta['user_url']) ? $meta['user_url'] : '#'); ?>" class="profile-link">VIEW PROFILE</a>
+    <a href="<?php echo esc_url(isset($meta['user_url']) ? $meta['user_url'] : '#'); ?>" class="profile-link"><?php _e( 'VIEW PROFILE', KGWP_USERDATADISPLAY_SLUG); ?></a>
 
 </div>

@@ -42,8 +42,8 @@ class AdminPages {
 
         $this->settings_pages = [
             'main' => [
-                'page_title' => 'KGWP User Data Display Settings', // i18n __() is done later -- FIX IT!
-                'menu_title' => 'User Data Display',
+                'page_title' => __('KGWP User Data Display Settings', $this->text_domain),
+                'menu_title' => __('User Data Display', $this->text_domain),
                 'capability' => $this->menu_capability,
                 'menu_slug'  => $this->menu_slug,
                 // 'callback'   => array($this, 'render_admin_page_settings'), // NO object! (too big)
@@ -53,15 +53,15 @@ class AdminPages {
             ],
             'children' => [
                 [
-                    'page_title' => 'KGWP User Data Display - Settings',
-                    'menu_title' => 'Settings',
+                    'page_title' => __('KGWP User Data Display - Settings', $this->text_domain),
+                    'menu_title' => __('Settings', $this->text_domain),
                     'capability' => $this->menu_capability,
                     'menu_slug'  => $this->menu_slug, // . '-settings',
                     'callback'   => 'render_admin_page_settings',
                 ],
                 [
-                    'page_title' => 'KGWP User Data Display -Shortcode Builder',
-                    'menu_title' => 'Shortcode Builder',
+                    'page_title' => __('KGWP User Data Display - Shortcode Builder', $this->text_domain),
+                    'menu_title' => __('Shortcode Builder', $this->text_domain),
                     'capability' => $this->menu_capability,
                     'menu_slug'  => $this->menu_slug . '-shortcode-builder',
                     'callback'   => 'render_admin_page_shortcode_builder',
@@ -120,8 +120,8 @@ class AdminPages {
         $page = $this->settings_pages['main'];
 
         add_menu_page(
-            __($page['page_title'], $this->text_domain),
-            __($page['menu_title'], $this->text_domain),
+            $page['page_title'],
+            $page['menu_title'],
             $page['capability'],
             $page['menu_slug'],
             array($this, $page['callback']),
@@ -133,8 +133,8 @@ class AdminPages {
 
             add_submenu_page(
                 $page['menu_slug'],
-                __($subpage['page_title'], $this->text_domain),
-                __($subpage['menu_title'], $this->text_domain),
+                $subpage['page_title'],
+                $subpage['menu_title'],
                 $subpage['capability'],
                 $subpage['menu_slug'],
                 array($this, $subpage['callback'])

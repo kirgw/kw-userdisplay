@@ -89,7 +89,7 @@ class TemplateHandler {
 
         // Check if the template file exists and for data errors
         if (false === $template_path) {
-            return '<p>' . KGWP_USERDATADISPLAY_SLUG . ' plugin error: Template not found (' . $template_path . ')</p>';
+            return '<p>' . KGWP_USERDATADISPLAY_SLUG . ' ' . __('plugin error: Template not found', KGWP_USERDATADISPLAY_SLUG) . '(' . $template_path . ')</p>';
         }
 
         // Render the template
