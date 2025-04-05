@@ -19,6 +19,18 @@ define('KW_USERDISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('KW_USERDISPLAY_PLUGIN_VERSION', '1.1.0');
 
+// Activation function
+function kw_userdisplay_activate() {
+    // ... empty for now
+}
+register_activation_hook(__FILE__, 'kw_userdisplay_activate');
+
+// Deactivation function
+function kw_userdisplay_deactivate() {
+    // ... empty for now
+}
+register_deactivation_hook(__FILE__, 'kw_userdisplay_deactivate');
+
 // Add the main file of the plugin
 require_once KW_USERDISPLAY_PLUGIN_PATH . 'includes/class-kw-userdisplay.php';
 
