@@ -1,30 +1,30 @@
 <?php
 /*
-* Plugin Name: KW UserDisplay (former KWP UserList)
-* Description: Plugin to show the sortable user list
+* Plugin Name: KG WP User Data Display
+* Description: Plugin to show the user data in various templates
 * Author: Kirill G.
 * Version: 2.0
 * License: GPLv2 or later
-* Text Domain: kw-userdisplay
+* Text Domain: kgwp-user-data-display
 */
 
-namespace KW\UserDisplay;
+namespace KGWP\UserDataDisplay;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
 
 // Setup the constants
-define('KW_USERDISPLAY_PLUGIN_NAME', plugin_basename(__FILE__));
-define('KW_USERDISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
-define('KW_USERDISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
-define('KW_USERDISPLAY_PLUGIN_VERSION', '2.0');
-define('KW_USERDISPLAY_SLUG', 'kw-userdisplay'); // slug both for menu and i18n
+define('KGWP_USERDATADISPLAY_PLUGIN_NAME', plugin_basename(__FILE__));
+define('KGWP_USERDATADISPLAY_PLUGIN_PATH', plugin_dir_path(__FILE__));
+define('KGWP_USERDATADISPLAY_PLUGIN_URL', plugin_dir_url(__FILE__));
+define('KGWP_USERDATADISPLAY_PLUGIN_VERSION', '2.0');
+define('KGWP_USERDATADISPLAY_SLUG', 'kgwp-user-data-display'); // slug both for menu and i18n
 
 // PSR-4 Autoloader (WordPress-style class names)
 spl_autoload_register(function ($class) {
 
-    $prefix = 'KW\\UserDisplay\\';
-    $base_dir = KW_USERDISPLAY_PLUGIN_PATH . 'includes/';
+    $prefix = 'KGWP\\UserDataDisplay\\';
+    $base_dir = KGWP_USERDATADISPLAY_PLUGIN_PATH . 'includes/';
 
     // Check if the class uses the namespace prefix
     $len = strlen($prefix);
@@ -53,5 +53,4 @@ spl_autoload_register(function ($class) {
 });
 
 // Start the plugin
-\KW\UserDisplay\Inc\Init::instance();
-
+\KGWP\UserDataDisplay\Inc\Init::instance();

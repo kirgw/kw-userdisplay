@@ -2,7 +2,7 @@
 
 /**
  * Admin page template - Shortcode Builder
- * @package KW\UserDisplay\Templates
+ * @package KGWP\UserDataDisplay\Templates
  */
 
 // Security check - exit if accessed directly
@@ -10,9 +10,9 @@ defined('ABSPATH') || exit;
 
 ?>
 
-<div class="kw-userdisplay-admin-container">
+<div class="kgwp-user-data-display-admin-container">
 
-    <h1>KW UserDisplay</h1>
+    <h1>KG WP User Data Display</h1>
 
     <p>Easily display <em>any</em> users data on your website.</p>
 
@@ -23,7 +23,7 @@ defined('ABSPATH') || exit;
         <h1>Shortcode Builder</h1>
         <p>Generate custom shortcodes to display user information on your website.</p>
 
-        <form id="kw-userdisplay-shortcode-form">
+        <form id="kgwp-user-data-display-shortcode-form">
             <table class="form-table">
                 <tr>
                     <th scope="row">

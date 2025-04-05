@@ -5,7 +5,7 @@ CARD SHORTCODE CSS
 =============================
 */
 
-.kg-user-card {
+.kgwp-user-data-display-card {
     width: 300px;
     height: 150px;
     border-radius: 10px;
@@ -16,8 +16,8 @@ CARD SHORTCODE CSS
     margin: 50px auto;
 }
 
-.kg-user-card .front,
-.kg-user-card .back {
+.kgwp-user-data-display-card .front,
+.kgwp-user-data-display-card .back {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -31,12 +31,12 @@ CARD SHORTCODE CSS
 
 
 
-.kg-user-card .front {
+.kgwp-user-data-display-card .front {
     background: white;
                          transform: rotateY(180deg); /* Front starts flipped */
 }
 
-.kg-user-card .back {
+.kgwp-user-data-display-card .back {
     background: repeating-linear-gradient(45deg,
             #606dbc,
             #606dbc 10px,
@@ -53,27 +53,27 @@ CARD SHORTCODE CSS
     box-sizing: border-box;
 }
 
-.kg-user-card:hover .front {
+.kgwp-user-data-display-card:hover .front {
     /* opacity: 0; */
     /* transform: rotateY(180deg); */
 }
 
-.kg-user-card:hover .back {
+.kgwp-user-data-display-card:hover .back {
     /* opacity: 1; */
     /* transform: rotateY(0deg); */
 }
 
 
-.kg-user-card:hover .front {
+.kgwp-user-data-display-card:hover .front {
     transform: rotateY(0deg); /* Front rotates to visible on hover */
 }
 
-.kg-user-card:hover .back {
+.kgwp-user-data-display-card:hover .back {
     transform: rotateY(180deg); /* Back rotates to hidden on hover */
 }
 
 
-.kg-user-card .avatar {
+.kgwp-user-data-display-card .avatar {
     width: 120px;
     height: 100%;
     background: #ccc;
@@ -87,7 +87,7 @@ CARD SHORTCODE CSS
     flex-shrink: 0;
 }
 
-.kg-user-card .content {
+.kgwp-user-data-display-card .content {
     padding: 10px 15px;
     display: flex;
     flex-direction: column;
@@ -96,7 +96,7 @@ CARD SHORTCODE CSS
     overflow: hidden;
 }
 
-.kg-user-card .username {
+.kgwp-user-data-display-card .username {
     font-weight: bold;
     margin: 0;
     white-space: nowrap;
@@ -104,7 +104,7 @@ CARD SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kg-user-card .profile-link {
+.kgwp-user-data-display-card .profile-link {
     color: #007bff;
     text-decoration: none;
     margin: 5px 0;
@@ -113,7 +113,7 @@ CARD SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kg-user-card .full-name {
+.kgwp-user-data-display-card .full-name {
     margin: 5px 0;
     color: #666;
     white-space: nowrap;
@@ -121,7 +121,7 @@ CARD SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kg-user-card .description {
+.kgwp-user-data-display-card .description {
     margin: 5px 0;
     color: #999;
     font-size: 0.8em;
@@ -140,13 +140,13 @@ USER LIST SHORTCODE CSS
 =============================
 */
 
-.kw-user-list {
+.kgwp-user-data-display-list {
     max-width: 600px;
     margin: 40px auto;
     padding: 0 20px;
 }
 
-.kw-user-list .user-item {
+.kgwp-user-data-display-list .user-item {
     display: flex;
     align-items: center;
     padding: 18px;
@@ -159,12 +159,12 @@ USER LIST SHORTCODE CSS
     position: relative;
 }
 
-.kw-user-list .user-item:hover {
+.kgwp-user-data-display-list .user-item:hover {
     transform: translateX(5px);
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-.kw-user-list .user-item::after {
+.kgwp-user-data-display-list .user-item::after {
     content: '';
     position: absolute;
     left: 0;
@@ -175,11 +175,11 @@ USER LIST SHORTCODE CSS
     opacity: 0.3;
 }
 
-.kw-user-list .user-item:last-child {
+.kgwp-user-data-display-list .user-item:last-child {
     margin-bottom: 0;
 }
 
-.kw-user-list .avatar-placeholder {
+.kgwp-user-data-display-list .avatar-placeholder {
     width: 50px;
     height: 50px;
     background: #f0f0f0;
@@ -192,12 +192,12 @@ USER LIST SHORTCODE CSS
     background-repeat: no-repeat;
 }
 
-.kw-user-list .user-content {
+.kgwp-user-data-display-list .user-content {
     flex: 1;
     min-width: 0;
 }
 
-.kw-user-list .username {
+.kgwp-user-data-display-list .username {
     font-weight: 600;
     color: #2c3e50;
     margin: 0 0 4px;
@@ -206,7 +206,7 @@ USER LIST SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kw-user-list .full-name {
+.kgwp-user-data-display-list .full-name {
     font-size: 0.9em;
     color: #7f8c8d;
     margin: 0 0 4px;
@@ -215,7 +215,7 @@ USER LIST SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kw-user-list .description {
+.kgwp-user-data-display-list .description {
     font-size: 0.85em;
     color: #95a5a6;
     line-height: 1.4;
@@ -226,7 +226,7 @@ USER LIST SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kw-user-list .profile-link {
+.kgwp-user-data-display-list .profile-link {
     margin-left: 15px;
     padding: 6px 12px;
     background: #3498db;
@@ -238,27 +238,27 @@ USER LIST SHORTCODE CSS
     flex-shrink: 0;
 }
 
-.kw-user-list .user-item:hover .profile-link {
+.kgwp-user-data-display-list .user-item:hover .profile-link {
     transform: translateX(5px);
 }
 
 @media (max-width: 600px) {
-    .kw-user-list {
+    .kgwp-user-data-display-list {
         padding: 0 10px;
     }
 
-    .kw-user-list .user-item {
+    .kgwp-user-data-display-list .user-item {
         flex-direction: column;
         align-items: flex-start;
         padding: 15px;
     }
 
-    .kw-user-list .avatar-placeholder {
+    .kgwp-user-data-display-list .avatar-placeholder {
         margin-right: 0;
         margin-bottom: 10px;
     }
 
-    .kw-user-list .profile-link {
+    .kgwp-user-data-display-list .profile-link {
         margin-left: 0;
         margin-top: 10px;
     }
@@ -272,28 +272,28 @@ USER TABLE SHORTCODE CSS
 */
 
 :root {
-    --kw-primary: #3498db;
-    --kw-gray-light: #f8f9fa;
-    --kw-gray-medium: #e7e7e7;
-    --kw-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    --kgwp-udd-primary: #3498db;
+    --kgwp-udd-gray-light: #f8f9fa;
+    --kgwp-udd-gray-medium: #e7e7e7;
+    --kgwp-udd-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
-.kw-user-table {
+.kgwp-user-data-display-table {
     width: 100%;
     max-width: 1200px;
     margin: 40px auto;
     border-collapse: collapse;
-    box-shadow: var(--kw-shadow);
+    box-shadow: var(--kgwp-udd-shadow);
     border-radius: 8px;
     overflow: hidden;
     background: white;
 }
 
-.kw-user-table thead {
+.kgwp-user-data-display-table thead {
     background: linear-gradient(135deg, #ffffff, #f8f9fa);
 }
 
-.kw-user-table th {
+.kgwp-user-data-display-table th {
     padding: 18px 24px;
     font-weight: 600;
     color: #333;
@@ -302,11 +302,11 @@ USER TABLE SHORTCODE CSS
     transition: background 0.3s;
 }
 
-.kw-user-table th:hover {
+.kgwp-user-data-display-table th:hover {
     background: #f0f0f0;
 }
 
-.kw-user-table th::after {
+.kgwp-user-data-display-table th::after {
     content: '';
     position: absolute;
     right: 10px;
@@ -321,56 +321,56 @@ USER TABLE SHORTCODE CSS
     transition: transform 0.3s;
 }
 
-.kw-user-table th.sorted.asc::after {
+.kgwp-user-data-display-table th.sorted.asc::after {
     border-bottom: none;
     border-top: 5px solid #333;
     transform: translateY(-50%) rotate(180deg);
 }
 
-.kw-user-table th.sorted.desc::after {
+.kgwp-user-data-display-table th.sorted.desc::after {
     border-bottom: none;
     border-top: 5px solid #333;
 }
 
-.kw-user-table tbody tr {
+.kgwp-user-data-display-table tbody tr {
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.kw-user-table tbody tr:hover {
+.kgwp-user-data-display-table tbody tr:hover {
     transform: translateX(5px);
-    box-shadow: inset 5px 0 0 var(--kw-primary);
+    box-shadow: inset 5px 0 0 var(--kgwp-udd-primary);
 }
 
-.kw-user-table td {
+.kgwp-user-data-display-table td {
     padding: 16px 24px;
-    border-bottom: 1px solid var(--kw-gray-medium);
+    border-bottom: 1px solid var(--kgwp-udd-gray-medium);
     vertical-align: middle;
 }
 
-.kw-user-table td:first-child {
+.kgwp-user-data-display-table td:first-child {
     font-weight: 600;
-    color: var(--kw-primary);
+    color: var(--kgwp-udd-primary);
 }
 
-.kw-user-table .edit-link {
-    color: var(--kw-primary);
+.kgwp-user-data-display-table .edit-link {
+    color: var(--kgwp-udd-primary);
     text-decoration: none;
     padding: 6px 12px;
     border-radius: 4px;
     transition: all 0.3s;
 }
 
-.kw-user-table .edit-link:hover {
+.kgwp-user-data-display-table .edit-link:hover {
     background: rgba(52, 152, 219, 0.1);
 }
 
-.kw-fade-enter-active,
-.kw-fade-leave-active {
+.kgwp-fade-enter-active,
+.kgwp-fade-leave-active {
     transition: opacity 0.5s;
 }
 
-.kw-fade-enter,
-.kw-fade-leave-to {
+.kgwp-fade-enter,
+.kgwp-fade-leave-to {
     opacity: 0;
 }
 
@@ -381,7 +381,7 @@ USER CARD 2 SHORTCODE CSS
 =============================
 */
 
-.kw-card-simple {
+.kgwp-user-data-display-card-simple {
     width: 300px;
     height: 120px;
     border-radius: 12px;
@@ -395,12 +395,12 @@ USER CARD 2 SHORTCODE CSS
     margin: 50px auto;
 }
 
-.kw-card-simple:hover {
+.kgwp-user-data-display-card-simple:hover {
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-.kw-card-simple::before {
+.kgwp-user-data-display-card-simple::before {
     content: '';
     position: absolute;
     top: 0;
@@ -413,16 +413,16 @@ USER CARD 2 SHORTCODE CSS
     pointer-events: none;
 }
 
-.kw-card-simple:hover::before {
+.kgwp-user-data-display-card-simple:hover::before {
     opacity: 1;
 }
 
-.kw-card-simple .content {
+.kgwp-user-data-display-card-simple .content {
     position: relative;
     z-index: 1;
 }
 
-.kw-card-simple .username {
+.kgwp-user-data-display-card-simple .username {
     font-size: 1.1em;
     font-weight: 600;
     color: #2c3e50;
@@ -432,7 +432,7 @@ USER CARD 2 SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kw-card-simple .full-name {
+.kgwp-user-data-display-card-simple .full-name {
     font-size: 0.9em;
     color: #7f8c8d;
     margin: 0 0 6px;
@@ -441,7 +441,7 @@ USER CARD 2 SHORTCODE CSS
     text-overflow: ellipsis;
 }
 
-.kw-card-simple .description {
+.kgwp-user-data-display-card-simple .description {
     font-size: 0.8em;
     color: #95a5a6;
     line-height: 1.4;
@@ -453,7 +453,7 @@ USER CARD 2 SHORTCODE CSS
     margin-bottom: 20px; /* Added margin to prevent overlap */
 }
 
-.kw-card-simple .profile-link {
+.kgwp-user-data-display-card-simple .profile-link {
     position: absolute;
     bottom: 12px;
     right: 12px;
@@ -468,8 +468,7 @@ USER CARD 2 SHORTCODE CSS
     font-size: 0.8em;
 }
 
-.kw-card-simple:hover .profile-link {
+.kgwp-user-data-display-card-simple:hover .profile-link {
     opacity: 1;
     transform: translateY(0);
 }
-

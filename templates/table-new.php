@@ -6,7 +6,7 @@
  *
  * This template displays users information in a sortable table
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  *
  * @param Array of users data
  * Array
@@ -42,18 +42,18 @@ $js_users_json = wp_json_encode($js_users);
 
 ?>
 
-<table class="kw-user-table">
+<table class="kgwp-user-data-display-table">
     <thead>
         <tr>
-            <th onclick="kwSortTable('username')">Username</th>
-            <th onclick="kwSortTable('firstName')">First Name</th>
-            <th onclick="kwSortTable('lastName')">Last Name</th>
-            <th onclick="kwSortTable('email')">Email</th>
-            <th onclick="kwSortTable('role')">Role</th>
+            <th onclick="kgwpSortTable('username')">Username</th>
+            <th onclick="kgwpSortTable('firstName')">First Name</th>
+            <th onclick="kgwpSortTable('lastName')">Last Name</th>
+            <th onclick="kgwpSortTable('email')">Email</th>
+            <th onclick="kgwpSortTable('role')">Role</th>
             <th>Action</th>
         </tr>
     </thead>
-    <tbody id="kwTableBody">
+    <tbody id="kgwp-user-data-display-table-body">
         <!-- Rows will be populated by JavaScript -->
     </tbody>
 </table>
@@ -61,20 +61,20 @@ $js_users_json = wp_json_encode($js_users);
 <script>
 
     // Placeholder
-    // const kwUsers = [
+    // const kgwpUsers = [
     //     { username: 'johndoe', firstName: 'John', lastName: 'Doe', email: 'john@example.com', role: 'Admin' },
     //     { username: 'janedoe', firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com', role: 'User' },
     //     { username: 'alexj', firstName: 'Alex', lastName: 'Johnson', email: 'alex@example.com', role: 'Moderator' }
     // ];
 
     // Real passed values
-    const kwUsers = <?php echo $js_users_json; ?>;
+    const kgwpUsers = <?php echo $js_users_json; ?>;
 
-    let kwSortColumn = '';
-    let kwSortDirection = 1;
+    let kgwpSortColumn = '';
+    let kgwpSortDirection = 1;
 
-    function kwRenderTable(data) {
-        const kwTbody = document.getElementById('kwTableBody');
+    function kgwpRenderTable(data) {
+        const kwTbody = document.getElementById('kgwp-user-data-display-table-body');
         kwTbody.innerHTML = data.map(user => `
             <tr>
                 <td>${user.username}</td>
@@ -87,30 +87,30 @@ $js_users_json = wp_json_encode($js_users);
         `).join('');
     }
 
-    function kwSortTable(column) {
-        if (column === kwSortColumn) {
-            kwSortDirection *= -1;
+    function kgwpSortTable(column) {
+        if (column === kgwpSortColumn) {
+            kgwpSortDirection *= -1;
         } else {
-            kwSortColumn = column;
-            kwSortDirection = 1;
+            kgwpSortColumn = column;
+            kgwpSortDirection = 1;
         }
 
-        const kwSorted = [...kwUsers].sort((a, b) => {
-            if (a[column] < b[column]) return -kwSortDirection;
-            if (a[column] > b[column]) return kwSortDirection;
+        const kgwpSorted = [...kgwpUsers].sort((a, b) => {
+            if (a[column] < b[column]) return -kgwpSortDirection;
+            if (a[column] > b[column]) return kgwpSortDirection;
             return 0;
         });
 
         document.querySelectorAll('th').forEach(th => {
             th.classList.remove('sorted', 'asc', 'desc');
             if (th.textContent.toLowerCase().replace(' ', '') === column) {
-                th.classList.add('sorted', kwSortDirection === 1 ? 'asc' : 'desc');
+                th.classList.add('sorted', kgwpSortDirection === 1 ? 'asc' : 'desc');
             }
         });
 
-        kwRenderTable(kwSorted);
+        kgwpRenderTable(kgwpSorted);
     }
 
     // Initial render
-    kwRenderTable(kwUsers);
+    kgwpRenderTable(kgwpUsers);
 </script>

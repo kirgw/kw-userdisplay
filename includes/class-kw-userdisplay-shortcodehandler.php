@@ -3,10 +3,10 @@
 /**
  * Template Handler Class
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  */
 
-namespace KW\UserDisplay\Inc;
+namespace KGWP\UserDataDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
@@ -70,15 +70,15 @@ class ShortcodeHandler {
         }
 
         // Fetch user data using parameters
-        $user_data = new UserData($atts);
-        $data      = $user_data->get_data();
+        $user_data = new \KGWP\UserDataDisplay\Inc\UserData($atts);
+        $data = $user_data->get_data();
 
         // Process template with retrieved data
-        $template_handler = new TemplateHandler();
+        $template_handler = new \KGWP\UserDataDisplay\Inc\TemplateHandler();
         $output = $template_handler->get_template(
-            $atts['type'],    // Template type
+            $atts['type'], // Template type
             $atts['variant'], // Template variant
-            $data,            // User data array
+            $data // User data array
         );
 
         if ($use_caching) { // Maybe cache full output

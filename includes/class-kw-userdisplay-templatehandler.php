@@ -3,10 +3,10 @@
 /**
  * Template Handler Class
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  */
 
-namespace KW\UserDisplay\Inc;
+namespace KGWP\UserDataDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
@@ -31,7 +31,7 @@ class TemplateHandler {
         // Locate Template
         $template_path = self::locate_template($template_type, $template_variant);
 
-        // Consider a filter here - apply_filters('kw_userdisplay_template_path', $template_path, $data);
+        // Consider a filter here - apply_filters('kgwp_user_data_display_template_path', $template_path, $data);
 
         // Include Template
         return self::render_template($template_path, data:$params);
@@ -49,15 +49,15 @@ class TemplateHandler {
 
         // Base paths: theme and plugin
         $template_base_paths = [
-            'theme' => get_stylesheet_directory() . KW_USERDISPLAY_SLUG . '/',
-            'plugin' => KW_USERDISPLAY_PLUGIN_PATH . 'templates/',
+            'theme' => get_stylesheet_directory() . KGWP_USERDATADISPLAY_SLUG . '/',
+            'plugin' => KGWP_USERDATADISPLAY_PLUGIN_PATH . 'templates/',
         ];
 
         // Sanitize template type.
         $template_type = !empty($template_type) ? sanitize_key($template_type) : 'card';
 
         // TODO: check access permissions
-        $is_allowed = \KW\UserDisplay\Inc\Init::is_allowed_to_view($template_type);
+        $is_allowed = \KGWP\UserDataDisplay\Inc\Init::is_allowed_to_view($template_type);
 
         // Determine the template name to use
         $template_filename = sanitize_file_name($template_type . '-' . (!empty($template_variant) ? $template_variant : 'default') . '.php');
@@ -89,7 +89,7 @@ class TemplateHandler {
 
         // Check if the template file exists and for data errors
         if (false === $template_path) {
-            return '<p>' . KW_USERDISPLAY_SLUG . ' plugin error: Template not found (' . $template_path . ')</p>';
+            return '<p>' . KGWP_USERDATADISPLAY_SLUG . ' plugin error: Template not found (' . $template_path . ')</p>';
         }
 
         // Render the template

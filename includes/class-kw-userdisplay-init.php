@@ -3,13 +3,13 @@
 /**
  * The file defines the core plugin class
  *
- * @package    KW\UserDisplay
- * @subpackage KW\UserDisplay\Inc
+ * @package    KGWP\UserDataDisplay
+ * @subpackage KGWP\UserDataDisplay\Inc
  */
 
-namespace KW\UserDisplay\Inc;
-use KW\UserDisplay\Inc\TemplateHandler as TemplateHandler;
-use KW\UserDisplay\Inc\UserData as UserData;
+namespace KGWP\UserDataDisplay\Inc;
+use KGWP\UserDataDisplay\Inc\TemplateHandler as TemplateHandler;
+use KGWP\UserDataDisplay\Inc\UserData as UserData;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
@@ -19,7 +19,7 @@ final class Init {
     /**
      * Instance of the class
      *
-     * @var \KW\UserDisplay\Inc\Init
+     * @var \KGWP\UserDataDisplay\Inc\Init
      */
     protected static $_instance = null;
 
@@ -30,7 +30,7 @@ final class Init {
     /**
      * Store the main instance (singleton)
      *
-     * @return \KW\UserDisplay\Inc\Init
+     * @return \KGWP\UserDataDisplay\Inc\Init
      */
     public static function instance() {
         if (self::$_instance === null) {
@@ -48,8 +48,8 @@ final class Init {
     public function __construct() {
 
         // Load needed classes with autoloader
-        $this->admin_page = new AdminPages();
-        $this->shortcode_handler = new ShortcodeHandler();
+        $this->admin_page = new \KGWP\UserDataDisplay\Inc\AdminPages();
+        $this->shortcode_handler = new \KGWP\UserDataDisplay\Inc\ShortcodeHandler();
         // UserData and TemplateHandler called later by ShortcodeHandler
 
         // Set locale
@@ -70,14 +70,21 @@ final class Init {
      */
     public function enqueue_assets() {
 
-        wp_enqueue_style('kw-userdisplay', KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-frontend-style.css', array(), KW_USERDISPLAY_PLUGIN_VERSION, 'all');
-        wp_enqueue_script('kw-userdisplay', KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-script.js', array('jquery'), KW_USERDISPLAY_PLUGIN_VERSION, false);
-
-        $ajaxdata = array(
-            'url'   => admin_url('admin-ajax.php'),
+        wp_enqueue_style(
+            'kgwp-user-data-display-styles',
+            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-frontend-style.css',
+            array(),
+            KGWP_USERDATADISPLAY_PLUGIN_VERSION,
+            'all'
         );
 
-        wp_localize_script('kw-userdisplay', 'ajaxdata', $ajaxdata);
+        wp_enqueue_script(
+            'kgwp-user-data-display-scripts',
+            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-script.js',
+            array('jquery'),
+            KGWP_USERDATADISPLAY_PLUGIN_VERSION,
+            false
+        );
     }
 
 
@@ -90,17 +97,17 @@ final class Init {
 
         // Set the locale, use plugin name as domain
         $locale = determine_locale();
-        $locale = apply_filters('plugin_locale', $locale, KW_USERDISPLAY_PLUGIN_NAME);
+        $locale = apply_filters('plugin_locale', $locale, KGWP_USERDATADISPLAY_PLUGIN_NAME);
 
         load_textdomain(
-            'kw-userdisplay',
-            WP_LANG_DIR . '/kw-userdisplay/kw-userdisplay-' . $locale . '.mo'
+            'kgwp-user-data-display',
+            WP_LANG_DIR . '/kgwp-user-data-display/kgwp-user-data-display-' . $locale . '.mo'
         );
 
         load_plugin_textdomain(
-            'kw-userdisplay',
+            'kgwp-user-data-display',
             false,
-            KW_USERDISPLAY_PLUGIN_NAME . '/languages/'
+            KGWP_USERDATADISPLAY_PLUGIN_NAME . '/languages/'
         );
     }
 

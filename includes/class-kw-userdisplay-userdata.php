@@ -1,6 +1,6 @@
 <?php
 // Example of the UserData class
-namespace KW\UserDisplay\Inc;
+namespace KGWP\UserDataDisplay\Inc;
 
 class UserData {
 
@@ -151,7 +151,7 @@ class UserData {
     public static function get_global_fields(): array {
 
         $default_options = array('user_login', 'user_email', 'display_name');
-        $options = get_option('kw_user_display_selected_meta_fields', array());
+        $options = get_option('kgwp_user_data_display_selected_meta_fields', array());
 
         return !empty($options) ? $options : $default_options;
     }
@@ -174,7 +174,7 @@ class UserData {
         $user = get_userdata($user_id);
 
         if (!$user) {
-            // error_log(KW_USERDISPLAY_SLUG . " error: Invalid user ID {$user_id}");
+            // error_log(KGWP_USERDATADISPLAY_SLUG . " error: Invalid user ID {$user_id}");
             return $user_data;
         }
 

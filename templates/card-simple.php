@@ -5,7 +5,7 @@
  *
  * This template displays user information in a card format
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  */
 
 // Exit if accessed directly.
@@ -16,7 +16,7 @@ $meta = $data['meta'];
 
 ?>
 
-<div class="kw-card-simple">
+<div class="kgwp-user-data-display-card-simple">
 
     <div class="content">
 

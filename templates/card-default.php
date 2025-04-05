@@ -5,7 +5,7 @@
  *
  * This template displays user information in a card format
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  */
 
 // Exit if accessed directly.
@@ -17,7 +17,7 @@ $meta = $data['meta'];
 ?>
 
 
-<div class="kg-user-card">
+<div class="kgwp-user-data-display-card">
 
     <div class="front">
 
@@ -26,12 +26,11 @@ $meta = $data['meta'];
         <div class="content">
 
             <div class="username">
-                <?php
-                // echo esc_html(apply_filters('kw_userdisplay_profile_label', __('Show Profile', 'kw-userdisplay')));
-                ?>
+
                 <a href="<?php echo esc_url(isset($meta['user_url']) ? $meta['user_url'] : '#'); ?>" class="profile-link">
                     <?php echo '@' . $meta['user_login']; ?>
                 </a>
+
             </div>
 
             <div class="full-name">

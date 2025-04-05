@@ -6,7 +6,7 @@
  *
  * This template displays users information in a list format
  *
- * @package KW\UserDisplay\Inc
+ * @package KGWP\UserDataDisplay\Inc
  *
  * @param Array of users data
  * Array
@@ -29,7 +29,7 @@ defined('ABSPATH') || exit;
 ?>
 
 
-<div class="kw-user-list">
+<div class="kgwp-user-data-display-list">
 
     <?php foreach ($data as $user) : $meta = $user['meta']; ?>
 

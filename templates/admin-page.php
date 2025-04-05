@@ -1,7 +1,8 @@
 <?php
 
 /**
- * Admin page template
+ * Admin page template - Settings
+ * @package KGWP\UserDataDisplay\Templates
  */
 
 // Security check - exit if accessed directly
@@ -9,9 +10,9 @@ defined('ABSPATH') || exit;
 
 ?>
 
-<div class="kw-userdisplay-admin-container">
+<div class="kgwp-user-data-display-admin-container">
 
-    <h1>KW UserDisplay</h1>
+    <h1>KG WP User Data Display</h1>
 
     <p>Easily display <em>any</em> users data on your website.</p>
 
@@ -25,8 +26,8 @@ defined('ABSPATH') || exit;
 
             <?php
 
-            settings_fields('kw_user_display_settings_group');
-            do_settings_sections('kw-user-display');
+            settings_fields('kgwp_user_data_display_settings_group');
+            do_settings_sections(KGWP_USERDATADISPLAY_SLUG);
 
             // Close the table after the settings fields are rendered.
             echo '</tbody></table>';

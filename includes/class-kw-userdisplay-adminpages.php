@@ -3,11 +3,11 @@
 /**
  * The file defines the settings class
  *
- * @package    KW\UserDisplay
- * @subpackage KW\UserDisplay\Inc
+ * @package    KGWP\UserDataDisplay
+ * @subpackage KGWP\UserDataDisplay\Inc
  */
 
-namespace KW\UserDisplay\Inc;
+namespace KGWP\UserDataDisplay\Inc;
 
 // Security check - exit if accessed directly
 defined('ABSPATH') || exit;
@@ -15,19 +15,21 @@ defined('ABSPATH') || exit;
 /**
  * Admin pages class
  *
- * @class KW\UserDisplay\Inc\AdminPages
+ * @class KGWP\UserDataDisplay\Inc\AdminPages
  */
 class AdminPages {
 
     // Pre-define the capability
     private $menu_capability = 'manage_options';
 
-    // Set the base menu slug (also used in sub-pages as a prefix)
-    private $menu_slug = 'kw-user-display';
-
     // Placeholder to store the settings pages
     private $settings_pages = [];
 
+    // Set the base menu slug (also used in sub-pages as a prefix)
+    public $menu_slug = KGWP_USERDATADISPLAY_SLUG;
+
+    // Text domain
+    public $text_domain = KGWP_USERDATADISPLAY_SLUG;
 
     /**
      * Constructor
@@ -38,14 +40,10 @@ class AdminPages {
      */
     public function __construct() {
 
-        // delete_option('kw_user_display_selected_meta_fields');
-
-        // return;
-
         $this->settings_pages = [
             'main' => [
-                'page_title' => 'KW UserDisplay Settings',
-                'menu_title' => 'KW UserDisplay',
+                'page_title' => 'KGWP User Data Display Settings', // i18n __() is done later -- FIX IT!
+                'menu_title' => 'User Data Display',
                 'capability' => $this->menu_capability,
                 'menu_slug'  => $this->menu_slug,
                 // 'callback'   => array($this, 'render_admin_page_settings'), // NO object! (too big)
@@ -55,14 +53,14 @@ class AdminPages {
             ],
             'children' => [
                 [
-                    'page_title' => 'Settings',
+                    'page_title' => 'KGWP User Data Display - Settings',
                     'menu_title' => 'Settings',
                     'capability' => $this->menu_capability,
                     'menu_slug'  => $this->menu_slug, // . '-settings',
                     'callback'   => 'render_admin_page_settings',
                 ],
                 [
-                    'page_title' => 'Shortcode Builder',
+                    'page_title' => 'KGWP User Data Display -Shortcode Builder',
                     'menu_title' => 'Shortcode Builder',
                     'capability' => $this->menu_capability,
                     'menu_slug'  => $this->menu_slug . '-shortcode-builder',
@@ -100,10 +98,10 @@ class AdminPages {
         if (strpos($screen->id, $this->menu_slug) !== false) {
 
             wp_enqueue_style(
-                'kw-userdisplay-admin-styles',
-                KW_USERDISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css',
+                'kgwp-user-data-display-admin-styles',
+                KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css',
                 array(),
-                KW_USERDISPLAY_PLUGIN_VERSION
+                KGWP_USERDATADISPLAY_PLUGIN_VERSION
             );
         }
     }
@@ -126,8 +124,8 @@ class AdminPages {
             __($page['menu_title'], $this->text_domain),
             $page['capability'],
             $page['menu_slug'],
-            array($this, $page['callback']), // add a hook to cb name here
-            $page['icon_url'],
+            array($this, $page['callback']),
+            $page['icon_url']
         );
 
         // Add sub-pages
@@ -139,7 +137,7 @@ class AdminPages {
                 __($subpage['menu_title'], $this->text_domain),
                 $subpage['capability'],
                 $subpage['menu_slug'],
-                array($this, $subpage['callback']),
+                array($this, $subpage['callback'])
             );
         }
     }
@@ -157,8 +155,8 @@ class AdminPages {
 
         // Add settings
         register_setting(
-            'kw_user_display_settings_group',
-            'kw_user_display_selected_meta_fields',
+            'kgwp_user_data_display_settings_group',
+            'kgwp_user_data_display_selected_meta_fields',
             array( // args array
                 'default'           => array('user_login', 'nickname', 'user_email'),
                 'sanitize_callback' => array($this, 'sanitize_selected_meta_fields'),
@@ -167,15 +165,14 @@ class AdminPages {
 
         // Add WP default fields section
         add_settings_section(
-            'kw_user_display_wp_fields_section',
+            'kgwp_user_data_display_wp_fields_section',
             __('Default User Fields', $this->text_domain),
             array($this, 'render_default_fields_section_description'),
             $this->menu_slug
         );
 
-        // Add custom fields section
         add_settings_section(
-            'kw_user_display_custom_fields_section',
+            'kgwp_user_data_display_custom_fields_section',
             __('Custom User Meta Fields', $this->text_domain),
             array($this, 'render_custom_fields_section_description'),
             $this->menu_slug
@@ -224,23 +221,23 @@ class AdminPages {
         }
 
         // Protection from empty - add defaults
-        $existing_options = get_option('kw_user_display_selected_meta_fields', array());
+        $existing_options = get_option('kgwp_user_data_display_selected_meta_fields', array());
         if (empty($existing_options)) {
             $existing_options = array_unique(array_merge($existing_options, array('user_login', 'nickname', 'user_email')));
-            update_option('kw_user_display_selected_meta_fields', $existing_options);
+            update_option('kgwp_user_data_display_selected_meta_fields', $existing_options);
         }
 
         // TODO: Allow adding custom fields by hand
         if (false) {
 
-            register_setting('kw_user_display_settings_group', 'kw_user_display_custom_fields');
+            register_setting('kgwp_user_data_display_settings_group', 'kgwp_user_data_display_custom_fields');
 
             add_settings_field(
-                'kw_user_display_custom_fields',
+                'kgwp_user_data_display_custom_fields',
                 'Enter Your Custom Fields (separated by commas):',
                 array($this, 'render_custom_fields_input'), // New render function
                 $this->menu_slug,
-                'kw_user_display_custom_fields_section'
+                'kgwp_user_data_display_custom_fields_section'
             );
         }
     }
@@ -255,49 +252,49 @@ class AdminPages {
     public function add_third_party_meta_fields() {
 
         // DB settings (possible structure):
-        // kw_user_display_wp_fields
-        // kw_user_display_woocommerce_fields
-        // kw_user_display_acf_fields
-        // kw_user_display_custom_fields
+        // kgwp_user_data_display_wp_fields
+        // kgwp_user_data_display_woocommerce_fields
+        // kgwp_user_data_display_acf_fields
+        // kgwp_user_data_display_custom_fields
 
         // WooCommerce Section
         if (is_plugin_active('woocommerce/woocommerce.php')) {
 
-            register_setting('kw_user_display_settings_group', 'kw_user_display_woocommerce_fields');
+            register_setting('kgwp_user_data_display_settings_group', 'kgwp_user_data_display_woocommerce_fields');
 
             add_settings_section(
-                'kw_user_display_woocommerce_section',
-                'WooCommerce Fields',
+                'kgwp_user_data_display_woocommerce_section',
+                __('WooCommerce Fields', $this->text_domain),
                 array($this, 'section_info_callback'),
                 $this->menu_slug
             );
             add_settings_field(
-                'kw_user_display_woocommerce_fields',
-                'Select WooCommerce Fields to Display:',
+                'kgwp_user_data_display_woocommerce_fields',
+                __('Select WooCommerce Fields to Display:', $this->text_domain),
                 array($this, 'render_woocommerce_fields_checkboxes'), // New render function
                 $this->menu_slug,
-                'kw_user_display_woocommerce_section'
+                'kgwp_user_data_display_woocommerce_section'
             );
         }
 
         // ACF Section
         if (defined('ACF')) {  // Check if ACF is defined as a constant
 
-            register_setting('kw_user_display_settings_group', 'kw_user_display_acf_fields');
+            register_setting('kgwp_user_data_display_settings_group', 'kgwp_user_data_display_acf_fields');
 
             add_settings_section(
-                'kw_user_display_acf_section',
-                'ACF Fields',
+                'kgwp_user_data_display_acf_section',
+                __('ACF Fields', $this->text_domain),
                 array($this, 'section_info_callback'),
                 $this->menu_slug
             );
 
             add_settings_field(
-                'kw_user_display_acf_fields',
-                'Select ACF Fields to Display:',
+                'kgwp_user_data_display_acf_fields',
+                __('Select ACF Fields to Display:', $this->text_domain),
                 array($this, 'render_acf_fields_checkboxes'), // New render function
                 $this->menu_slug,
-                'kw_user_display_acf_section'
+                'kgwp_user_data_display_acf_section'
             );
         }
     }
@@ -309,8 +306,7 @@ class AdminPages {
      * @return void
      */
     public function render_admin_page_settings() {
-        // require_once KW_USERDISPLAY_PLUGIN_PATH . 'templates/admin-page-settings.php';
-        require_once KW_USERDISPLAY_PLUGIN_PATH . 'templates/admin-page.php';
+        require_once KGWP_USERDATADISPLAY_PLUGIN_PATH . 'templates/admin-page.php';
     }
 
 
@@ -320,7 +316,7 @@ class AdminPages {
      * @return void
      */
     public function render_admin_page_shortcode_builder() {
-        require_once KW_USERDISPLAY_PLUGIN_PATH . 'templates/admin-page-shortcode-builder.php';
+        require_once KGWP_USERDATADISPLAY_PLUGIN_PATH . 'templates/admin-page-shortcode-builder.php';
     }
 
 
@@ -439,11 +435,11 @@ class AdminPages {
     public function add_settings_field($meta_field, $field_title, $section) {
 
         add_settings_field(
-            'kw_user_display_meta_field_' . sanitize_title($meta_field),
+            'kgwp_user_data_display_meta_field_' . sanitize_title($meta_field),
             esc_html($field_title),
             array($this, 'render_meta_field_checkbox'),
             $this->menu_slug,
-            'kw_user_display_' . $section,
+            'kgwp_user_data_display_' . $section,
             array('meta_field' => $meta_field)
         );
     }
@@ -572,11 +568,11 @@ class AdminPages {
 
         $meta_field = $args['meta_field'];
 
-        $options = get_option('kw_user_display_selected_meta_fields', array()); // Add default value
+        $options = get_option('kgwp_user_data_display_selected_meta_fields', array()); // Add default value
         $checked = (is_array($options) && in_array($meta_field, $options)) ? 'checked' : '';
 
         echo '
-            <input type="checkbox" name="kw_user_display_selected_meta_fields[]" value="' . esc_attr($meta_field) . '" ' . $checked . ' />' .
+            <input type="checkbox" name="kgwp_user_data_display_selected_meta_fields[]" value="' . esc_attr($meta_field) . '" ' . $checked . ' />' .
             '<code>' . esc_attr($meta_field) . // '&nbsp;' . // some space
             '<span class="dashicons ' . ($checked ? 'dashicons-yes' : 'dashicons-no-alt') . // icon
             '"></span></code>';
@@ -634,6 +630,3 @@ class AdminPages {
         return $sanitized_fields;
     }
 }
-
-
-

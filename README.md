@@ -1,4 +1,4 @@
-# KW UserDisplay
+# KG WP User Data Display
 
 License: GPLv2 or later
 
