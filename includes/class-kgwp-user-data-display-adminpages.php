@@ -99,7 +99,7 @@ class AdminPages {
 
             wp_enqueue_style(
                 'kgwp-user-data-display-admin-styles',
-                KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-admin-style.css',
+                KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kgwp-user-data-display-admin-styles.css',
                 array(),
                 KGWP_USERDATADISPLAY_PLUGIN_VERSION
             );

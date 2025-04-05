@@ -72,7 +72,7 @@ final class Init {
 
         wp_enqueue_style(
             'kgwp-user-data-display-styles',
-            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-frontend-style.css',
+            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kgwp-user-data-display-frontend-styles.css',
             array(),
             KGWP_USERDATADISPLAY_PLUGIN_VERSION,
             'all'
@@ -80,7 +80,7 @@ final class Init {
 
         wp_enqueue_script(
             'kgwp-user-data-display-scripts',
-            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kw-userdisplay-script.js',
+            KGWP_USERDATADISPLAY_PLUGIN_URL . 'assets/kgwp-user-data-display-scripts.js',
             array('jquery'),
             KGWP_USERDATADISPLAY_PLUGIN_VERSION,
             false

@@ -41,7 +41,7 @@ spl_autoload_register(function ($class) {
     $file_name = str_replace('\\', '-', $relative_class);
 
     // Construct the file path
-    $file = $base_dir . 'class-kw-userdisplay-' . strtolower($file_name) . '.php';
+    $file = $base_dir . 'class-kgwp-user-data-display-' . strtolower($file_name) . '.php';
 
     // Check if the file exists
     if (file_exists($file)) {
